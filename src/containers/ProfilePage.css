@@ -1,0 +1,83 @@
+.profile-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .profile-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .profile-avatar {
+    width: 100px;
+    height: 100px;
+    overflow: hidden;
+    border-radius: 50%;
+    margin-right: 20px;
+  }
+  
+  .profile-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .profile-info {
+    flex-grow: 1;
+  }
+  
+  .profile-username {
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  .profile-bio {
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+  
+  .profile-stats {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+  }
+  
+  .profile-stats li {
+    margin-right: 20px;
+  }
+  
+  .profile-stat-count {
+    font-weight: bold;
+  }
+  
+  .profile-posts {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 10px;
+  }
+  
+  .profile-post img {
+    width: 80%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .profile-actions {
+    margin-top: 20px;
+  }
+  
+  .profile-actions a {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #3897f0;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+  }
+  
+  /* Additional styling can be added as per your requirements */
+  

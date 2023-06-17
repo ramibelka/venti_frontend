@@ -1,0 +1,70 @@
+/* ------------ OFFER ----------- */
+.main-offer {
+    background-color: var(--light-grey);
+    padding-bottom: 100px;
+  }
+  .offer-page {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 20px;
+  }
+  .offer-page .carousel {
+    display: flex;
+    overflow: hidden;
+    overflow-x: scroll;
+    width: 70%;
+  }
+  .offer-page .carousel img {
+    height: 80vh;
+    width: calc(100% / 2);
+    object-fit: cover;
+    border-radius: 5px;
+    margin-right: 2px;
+  }
+  .offer-page-details {
+    background-color: var(--white);
+    padding: 30px;
+    width: 30%;
+  }
+  .bloc-1 {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0 40px 0;
+    line-height: 20px;
+    font-size: 13px;
+    border-bottom: 1px solid var(--dark-grey);
+    padding-bottom: 50px;
+  }
+  .bloc-1 > div:first-child {
+    color: var(--dark-grey);
+  }
+  .offer-price {
+    font-weight: 600;
+    font-size: 24px;
+  }
+  .bloc-2 {
+    margin-bottom: 30px;
+  }
+  .bloc-2 p:first-child {
+    font-weight: 600;
+    margin-bottom: 20px;
+  }
+  .bloc-2 p:nth-child(2) {
+    color: var(--dark-grey);
+    margin-bottom: 20px;
+  }
+  .bloc-2 img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 10px;
+    object-fit: cover;
+  }
+  .bloc-2 div {
+    display: flex;
+    align-items: center;
+  }
+  .main-offer .btn-green {
+    padding: 10px;
+    width: 100%;
+  }

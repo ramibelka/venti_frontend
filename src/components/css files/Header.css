@@ -1,0 +1,55 @@
+/* -------------- HEADER ------------- */
+header {
+    background-color: var(--white);
+    border-bottom: 1px solid var(--light-grey);
+    height: 8vh;
+    padding: 10px;
+  }
+  header .wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  header img {
+    width: 100px;
+  }
+  header .search-bar {
+    background-color: var(--light-grey);
+    font-family: "Open Sans", sans-serif;
+    border-radius: 5px;
+    border: none;
+    padding: 10px;
+    width: 50%;
+    height: 5vh;
+  }
+  header button {
+    padding: 5px 10px;
+    margin-right: 10px;
+  }
+  header a.btn-white {
+    color: var(--main-green);
+    background-color: var(--white);
+    margin-right: 10px;
+    border: 1px solid var(--main-green);
+    border-radius: 5px;
+    font-family: "Open Sans", sans-serif;
+    cursor: pointer;
+    padding: 5px 10px;
+    font-size: 14px;
+  }
+  header a.btn-green {
+    padding: 5px 10px;
+    background-color: var(--main-green);
+    color: var(--white);
+    border: 1px solid var(--main-green);
+    border-radius: 5px;
+    font-family: "Open Sans", sans-serif;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  header .btn-disco {
+    margin-right: 10px;
+    background-color: var(--orange-disconnect);
+    border: 1px solid var(--orange-disconnect);
+    color: var(--white);
+  }

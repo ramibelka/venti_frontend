@@ -1,0 +1,46 @@
+/* hero */
+.hero {
+    position: relative;
+    height: 400px;
+    overflow: hidden;
+  }
+  
+  .hero .banner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+  }
+  
+  .hero h1 {
+    font-size: 48px;
+    font-weight: bold;
+    color: #ffffff;
+    margin: 0;
+    padding-top: 80px;
+    text-align: center;
+  }
+  
+  .hero a {
+    display: block;
+    max-width: 200px;
+    margin: 40px auto 0;
+    padding: 16px 24px;
+    border-radius: 40px;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    color: #ffffff;
+    background-color: #4f4f4f;
+  }
+  
+  .hero .banner-cut {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+  }
+  
