@@ -6,9 +6,14 @@ import axios from "axios";
 const Signup = (props) => {
   const { setUser, show } = props;
 
-  const [name, setName] = useState("");
+  const [nom, setNom] = useState("");
+  const [prenom, setPrenom] = useState("");
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [birthDate, setBirthDate] = useState("");
+  const [location, setLocation] = useState("");
+  const [phoneNum, setPhoneNum] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
   const history = useHistory();
@@ -17,9 +22,19 @@ const Signup = (props) => {
     return null;
   }
 
-  const handleName = (event) => {
+  const handleNom = (event) => {
     const result = event.target.value;
-    setName(result);
+    setNom(result);
+  };
+
+  const handlePrenom = (event) => {
+    const result = event.target.value;
+    setPrenom(result);
+  };
+
+  const handleUsername = (event) => {
+    const result = event.target.value;
+    setUsername(result);
   };
 
   const handleEmail = (event) => {
@@ -32,18 +47,35 @@ const Signup = (props) => {
     setPassword(result);
   };
 
+  const handleBirthDate = (event) => {
+    const result = event.target.value;
+    setBirthDate(result);
+  };
+
+  const handleLocation = (event) => {
+    const result = event.target.value;
+    setLocation(result);
+  };
+
+  const handlePhoneNum = (event) => {
+    const result = event.target.value;
+    setPhoneNum(result);
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const fetchData = async () => {
       try {
-        const response = await axios.post(
-          "https://lereacteur-vinted-api.herokuapp.com/user/signup",
-          {
-            username: name,
-            email: email,
-            password: password,
-          }
-        );
+        const response = await axios.post("http://127.0.0.1:8000/api/signup/", {
+          username: username,
+          nom: nom,
+          prenom: prenom,
+          adr_email: email,
+          password: password,
+          date_de_naissance: birthDate,
+          localisation: location,
+          numero_de_tel: phoneNum,
+        });
         if (response.data.token) {
           const token = response.data.token;
           setUser(token, response.data._id);
@@ -71,27 +103,34 @@ const Signup = (props) => {
             <div className="input-form">
               <input
                 type="text"
-                placeholder="Nom d'utilisateur"
-                onChange={handleName}
+                placeholder="Username"
+                onChange={handleUsername}
               />
+              <input type="text" placeholder="Nom" onChange={handleNom} />
+              <input type="text" placeholder="Prenom" onChange={handlePrenom} />
               <input type="email" placeholder="Email" onChange={handleEmail} />
               <input
                 type="password"
                 placeholder="Mot de passe"
                 onChange={handlePassword}
               />
+              <input
+                type="date"
+                placeholder="Location"
+                onChange={handleBirthDate}
+              />
+              <input
+                type="text"
+                placeholder="Location"
+                onChange={handleLocation}
+              />
+              <input
+                type="text"
+                placeholder="Phone number"
+                onChange={handlePhoneNum}
+              />
             </div>
 
-            <div className="newsletter">
-              <input type="checkbox" id="newsletter" />
-              <label htmlFor="newsletter">S'inscrire à notre newsletter</label>
-            </div>
-
-            <p>
-              En m'inscrivant je confirme avoir lu et accepté les Termes &
-              Conditions et Politique de Confidentialité de Vinted. Je confirme
-              avoir au moins 18 ans.
-            </p>
             <input
               type="submit"
               value="S'inscrire"

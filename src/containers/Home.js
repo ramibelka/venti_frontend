@@ -19,7 +19,8 @@ const Home = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "https://lereacteur-vinted-api.herokuapp.com/offers"
+          //"https://lereacteur-vinted-api.herokuapp.com/offers"
+          "http://127.0.0.1:8000/api/articles/"
         );
 
         setData(response.data);

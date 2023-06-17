@@ -3,7 +3,7 @@ import logo from "../assets/img/vinted-logo.png";
 import Signup from "../components/Signup";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMessage, faUser, faBell } from "@fortawesome/free-regular-svg-icons";
-//import "./Header.css"; 
+//import "./Header.css";
 
 const Header = ({ setUser, userToken, setShow, show }) => {
   return (
@@ -20,14 +20,28 @@ const Header = ({ setUser, userToken, setShow, show }) => {
         />
         <div>
           {userToken ? (
-            <button
-              className="btn-disco"
-              onClick={() => {
-                setUser(null);
-              }}
-            >
-              Se déconnecter
-            </button>
+            <div>
+              <button
+                className="btn-disco"
+                onClick={() => {
+                  setUser(null);
+                }}
+              >
+                Se déconnecter
+              </button>
+
+              <Link to="/notifications" className="btn-green">
+                <FontAwesomeIcon icon={faBell} />
+              </Link>
+
+              <Link to="/Messages" className="btn-green">
+                <FontAwesomeIcon icon={faMessage} />
+              </Link>
+
+              <Link to="/profile" className="btn-green">
+                <FontAwesomeIcon icon={faUser} />
+              </Link>
+            </div>
           ) : (
             <>
               <button
@@ -48,23 +62,9 @@ const Header = ({ setUser, userToken, setShow, show }) => {
               </Link>
             </>
           )}
-
-          <Link to="/publish" className="btn-white">
+          <Link to="/publish" className="btn-green">
             Vends tes articles
           </Link>
-          
-          <Link to="/notifications" className="btn-green">
-            <FontAwesomeIcon icon={faBell} />
-          </Link>
-          
-          <Link to="/Messages" className="btn-green">
-            <FontAwesomeIcon icon={faMessage} />
-          </Link>
-
-          <Link to="/profile" className="btn-green">
-            <FontAwesomeIcon icon={faUser} />
-          </Link>
-          
         </div>
       </div>
     </header>

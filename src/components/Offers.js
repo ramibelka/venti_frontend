@@ -5,16 +5,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faHeart as farHeart,
   faComment,
-  faBookmark as farBookmark
+  faBookmark as farBookmark,
 } from "@fortawesome/free-regular-svg-icons";
 import {
   faHeart as fasHeart,
-  faBookmark as fasBookmark
+  faBookmark as fasBookmark,
 } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
-
-
-
 
 const Offers = ({ data }) => {
   const [isLiked, setIsLiked] = useState(false);
@@ -31,27 +28,18 @@ const Offers = ({ data }) => {
   return (
     <main className="wrapper">
       <div className="offers">
-        {data.offers.map((elem) => (
-          <div key={elem._id} className="wrap-card">
+        {data.map((elem) => (
+          <div key={elem.id} className="wrap-card">
             <div className="offer-card">
               <div className="avatar-card">
-                {elem.owner.account.avatar ? (
-                  <img
-                    src={elem.owner.account.avatar.secure_url}
-                    alt="/"
-                    className="avatar-card"
-                  />
+                {elem.photo ? (
+                  <img src={elem.photo} alt="/" className="avatar-card" />
                 ) : null}
-                <span>{elem.owner.account.username}</span>
+                <span>{elem.auteur}</span>
               </div>
 
-              <Link to={`/offer/${elem._id}`} className="post-card">
-                <img
-                  key={elem.product_image.asset_id}
-                  src={elem.product_image.secure_url}
-                  alt="/"
-                  className="product-card"
-                />
+              <Link to={`/offer/${elem.id}`} className="post-card">
+                <img src={elem.photo} alt="/" className="product-card" />
               </Link>
 
               <div className="icons-container">
@@ -69,20 +57,18 @@ const Offers = ({ data }) => {
               </div>
 
               <div className="post-info">
-                <p>{elem.product_price} €</p>
+                <p>{elem.prix} DZD</p>
                 <>
-                  {elem.product_details.map((elem, index) => {
-                    return elem.TAILLE ? (
-                      <p key={index}>{elem.TAILLE}</p>
-                    ) : null;
-                  })}
+                  <p>{elem.description}</p>
                 </>
                 <>
-                  {elem.product_details.map((elem, index) => {
-                    return elem.MARQUE ? (
-                      <p key={index}>{elem.MARQUE}</p>
-                    ) : null;
-                  })}
+                  <p>{elem.description}</p>
+                </>
+                <>
+                  <p>{elem.disponibilite}</p>
+                </>
+                <>
+                  <p>{elem.Etat}</p>
                 </>
               </div>
             </div>
