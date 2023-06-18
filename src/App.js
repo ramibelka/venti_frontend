@@ -12,7 +12,6 @@ import Home from "./containers/Home";
 import Login from "./containers/Login";
 import Offer from "./containers/Offer";
 import Publish from "./containers/Publish";
-import Payment from "./containers/Payment";
 import NoMatch from "./containers/NoMatch";
 import Header from "./components/Header";
 import Signup from "./components/Signup";
@@ -20,8 +19,6 @@ import Footer from "./components/Footer";
 import CategoriesPanel from "./components/CategoriesPanel";
 import Messages from "./containers/Messages";
 import ProfilePage from "./containers/ProfilePage";
-
-
 
 function App() {
   const [userToken, setUserToken] = useState(Cookies.get("userToken") || null);
@@ -65,9 +62,6 @@ function App() {
         </Route>
         <Route path="/messages">
           <Messages />
-        </Route>
-        <Route path="/payment">
-          <Payment />
         </Route>
         <Route exact path="/">
           <Home />

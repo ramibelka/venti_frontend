@@ -21,6 +21,9 @@ const Header = ({ setUser, userToken, setShow, show }) => {
         <div>
           {userToken ? (
             <div>
+              <Link to="/publish" className="btn-green">
+                Vends tes articles
+              </Link>
               <button
                 className="btn-disco"
                 onClick={() => {
@@ -60,11 +63,11 @@ const Header = ({ setUser, userToken, setShow, show }) => {
               <Link to="/login" className="btn-white">
                 Se connecter
               </Link>
+              <Link to="/publish" className="btn-green">
+                Vends tes articles
+              </Link>
             </>
           )}
-          <Link to="/publish" className="btn-green">
-            Vends tes articles
-          </Link>
         </div>
       </div>
     </header>

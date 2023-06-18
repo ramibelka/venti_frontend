@@ -6,10 +6,6 @@ import axios from "axios";
 const Login = (props) => {
   const { setUser, setShow } = props;
 
-  // axios.defaults.withCredentials = true;
-  // axios.defaults.xsrfCookieName = "csrftoken";
-  // axios.defaults.xsrfHeaderName = "X-CSRFToken";
-
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
@@ -26,36 +22,20 @@ const Login = (props) => {
     setPassword(result);
   };
 
-  function getCookie(name) {
-    const cookieValue = document.cookie.match(
-      "(^|;)\\s*" + name + "\\s*=\\s*([^;]+)"
-    );
-    return cookieValue ? cookieValue.pop() : "";
-  }
-
-  const csrfToken = window.csrfToken;
-
   const handleSubmit = (event) => {
     event.preventDefault();
 
     const fetchData = async () => {
       try {
-        const csrftoken = getCookie("csrftoken"); // Function to retrieve the CSRF token from cookies
-
-        console.log(csrftoken);
         const response = await axios.post(
           "http://127.0.0.1:8000/api-auth/login/",
 
           {
             username: username,
             password: password,
-          },
-          {
-            headers: {
-              "X-CSRFToken": csrfToken, // Include the CSRF token in the request headers
-            },
           }
         );
+        console.log(response.data.token);
         if (response.data.token) {
           const token = response.data.token;
           setUser(token, response.data.id);

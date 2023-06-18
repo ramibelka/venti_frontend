@@ -31,7 +31,7 @@ const Publish = ({ userToken }) => {
       formData.append("picture", picture);
 
       const response = await axios.post(
-        "https://lereacteur-vinted-api.herokuapp.com/offer/publish",
+        "http://127.0.0.1:8000/api/articles/ajouter/",
         formData,
         {
           headers: {
@@ -42,6 +42,7 @@ const Publish = ({ userToken }) => {
       );
       setData(response.data);
       setIsLoading(false);
+      console.log(userToken);
     } catch (error) {
       console.log(error.message);
     }
