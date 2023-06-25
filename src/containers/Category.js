@@ -8,24 +8,12 @@ import { faSpinner, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 library.add(faSpinner, faPlus);
 
-const Home = (userToken = { userToken }) => {
+const Category = () => {
   const [data, setData] = useState();
   const [isLoading, setIsLoading] = useState(true);
-  const offersTitle = "Popular items";
-  const show = true;
 
   // My Api : https://vinted--le-reacteur.herokuapp.com/offers
   // Le Reacteur API : https://lereacteur-vinted-api.herokuapp.com/offers
-  if (userToken) {
-    const headers = {
-      headers: {
-        Authorization: "Token " + userToken,
-        "Content-Type": "multipart/form-data",
-      },
-    };
-  } else {
-    const headers = "";
-  }
 
   useEffect(() => {
     const fetchData = async () => {
@@ -50,18 +38,13 @@ const Home = (userToken = { userToken }) => {
         <FontAwesomeIcon icon="spinner" spin />
       </span>
 
-      <span>Loading...</span>
+      <span>En cours de chargement...</span>
     </div>
   ) : (
     <div>
       <Hero />
-      <Offers
-        data={data}
-        offersTitle={offersTitle}
-        show={show}
-        userToken={userToken}
-      />
+      <Offers data={data} />
     </div>
   );
 };
-export default Home;
+export default Category;

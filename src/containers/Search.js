@@ -1,48 +1,24 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
 import Hero from "../components/Hero";
 import Offers from "../components/Offers";
 
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faSpinner, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useLocation } from "react-router-dom";
 library.add(faSpinner, faPlus);
 
-const Home = (userToken = { userToken }) => {
+const Search = (userToken = { userToken }) => {
   const [data, setData] = useState();
-  const [isLoading, setIsLoading] = useState(true);
-  const offersTitle = "Popular items";
+  const [isLoading, setIsLoading] = useState(false);
+  const offersTitle = "Results";
   const show = true;
+
+  const location = useLocation();
+  const searchResults = location.state.searchResults;
 
   // My Api : https://vinted--le-reacteur.herokuapp.com/offers
   // Le Reacteur API : https://lereacteur-vinted-api.herokuapp.com/offers
-  if (userToken) {
-    const headers = {
-      headers: {
-        Authorization: "Token " + userToken,
-        "Content-Type": "multipart/form-data",
-      },
-    };
-  } else {
-    const headers = "";
-  }
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          //"https://lereacteur-vinted-api.herokuapp.com/offers"
-          "http://127.0.0.1:8000/api/articles/"
-        );
-
-        setData(response.data);
-        setIsLoading(false);
-      } catch (e) {
-        console.log(e.message);
-      }
-    };
-    fetchData();
-  }, []);
 
   return isLoading ? (
     <div className="loading">
@@ -54,9 +30,8 @@ const Home = (userToken = { userToken }) => {
     </div>
   ) : (
     <div>
-      <Hero />
       <Offers
-        data={data}
+        data={searchResults}
         offersTitle={offersTitle}
         show={show}
         userToken={userToken}
@@ -64,4 +39,4 @@ const Home = (userToken = { userToken }) => {
     </div>
   );
 };
-export default Home;
+export default Search;

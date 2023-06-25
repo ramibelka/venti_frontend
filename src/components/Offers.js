@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import axios from "axios";
 //import "./Offers.css";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -13,63 +14,88 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 
-const Offers = ({ data }) => {
-  const [isLiked, setIsLiked] = useState(false);
-  const [isSaved, setIsSaved] = useState(false);
+const Offers = ({ data, offersTitle, show, userToken }) => {
+  const [likedArticles, setLikedArticles] = useState([]);
+  const [savedArticles, setSavedArticles] = useState([]);
 
-  const handleLike = () => {
-    setIsLiked(!isLiked);
+  const handleLike = (id) => {
+    const updatedLikedArticles = [...likedArticles];
+    const index = updatedLikedArticles.indexOf(id);
+
+    if (index === -1) {
+      updatedLikedArticles.push(id);
+    } else {
+      updatedLikedArticles.splice(index, 1);
+    }
+
+    setLikedArticles(updatedLikedArticles);
   };
 
-  const handleSave = () => {
-    setIsSaved(!isSaved);
+  const handleSave = (id) => {
+    const updatedSavedArticles = [...savedArticles];
+    const index = updatedSavedArticles.indexOf(id);
+
+    if (index === -1) {
+      updatedSavedArticles.push(id);
+    } else {
+      updatedSavedArticles.splice(index, 1);
+    }
+
+    setSavedArticles(updatedSavedArticles);
+  };
+
+  const isArticleLiked = (id) => {
+    return likedArticles.includes(id);
+  };
+
+  const isArticleSaved = (id) => {
+    return savedArticles.includes(id);
   };
 
   return (
     <main className="wrapper">
+      <h1>{offersTitle}</h1>
       <div className="offers">
         {data.map((elem) => (
           <div key={elem.id} className="wrap-card">
             <div className="offer-card">
-              <div className="avatar-card">
-                {elem.photo ? (
-                  <img src={elem.photo} alt="/" className="avatar-card" />
-                ) : null}
-                <span>{elem.auteur}</span>
-              </div>
+              {show ? (
+                <div className="avatar-card">
+                  {elem.photo ? (
+                    <img src={elem.photo} alt="/" className="avatar-card" />
+                  ) : null}
+                  <span>{elem.auteur}</span>
+                </div>
+              ) : (
+                <div> </div>
+              )}
 
               <Link to={`/offer/${elem.id}`} className="post-card">
                 <img src={elem.photo} alt="/" className="product-card" />
               </Link>
 
-              <div className="icons-container">
-                <FontAwesomeIcon
-                  icon={isLiked ? fasHeart : farHeart}
-                  className={`icon ${isLiked ? "liked" : ""}`}
-                  onClick={handleLike}
-                />
-                <FontAwesomeIcon icon={faComment} className="icon" />
-                <FontAwesomeIcon
-                  icon={isSaved ? fasBookmark : farBookmark}
-                  className={`icon ${isSaved ? "saved" : ""}`}
-                  onClick={handleSave}
-                />
-              </div>
+              {show ? (
+                <div className="icons-container">
+                  <FontAwesomeIcon
+                    icon={isArticleLiked(elem.id) ? fasHeart : farHeart}
+                    className={`icon ${isArticleLiked(elem.id) ? "liked" : ""}`}
+                    onClick={() => handleLike(elem.id)}
+                  />
+                  <FontAwesomeIcon icon={faComment} className="icon" />
+                  <FontAwesomeIcon
+                    icon={isArticleSaved(elem.id) ? fasBookmark : farBookmark}
+                    className={`icon ${isArticleSaved(elem.id) ? "saved" : ""}`}
+                    onClick={() => handleSave(elem.id)}
+                  />
+                </div>
+              ) : (
+                <div></div>
+              )}
 
               <div className="post-info">
                 <p>{elem.prix} DZD</p>
-                <>
-                  <p>{elem.description}</p>
-                </>
-                <>
-                  <p>{elem.description}</p>
-                </>
-                <>
-                  <p>{elem.disponibilite}</p>
-                </>
-                <>
-                  <p>{elem.Etat}</p>
-                </>
+                <p>{elem.nom_article}</p>
+                <p>{elem.Etat}</p>
               </div>
             </div>
           </div>

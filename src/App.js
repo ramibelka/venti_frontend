@@ -1,5 +1,5 @@
 import "./App.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   BrowserRouter as Router,
   Switch,
@@ -19,10 +19,19 @@ import Footer from "./components/Footer";
 import CategoriesPanel from "./components/CategoriesPanel";
 import Messages from "./containers/Messages";
 import ProfilePage from "./containers/ProfilePage";
+import Search from "./containers/Search";
 
 function App() {
-  const [userToken, setUserToken] = useState(Cookies.get("userToken") || null);
+  const [userToken, setUserToken] = useState(null);
   const [show, setShow] = useState(false);
+
+  useEffect(() => {
+    const token = Cookies.get("token");
+    const userId = Cookies.get("userId");
+    if (token && userId) {
+      setUserToken(token);
+    }
+  }, []);
 
   const setUser = (token, id) => {
     if (token) {
@@ -31,7 +40,7 @@ function App() {
       setUserToken(token);
     } else {
       Cookies.remove("token");
-      Cookies.remove("id");
+      Cookies.remove("userId");
       setUserToken(null);
     }
   };
@@ -64,8 +73,9 @@ function App() {
           <Messages />
         </Route>
         <Route exact path="/">
-          <Home />
+          <Home userToken={userToken} />
         </Route>
+        <Route path="/search" component={Search} />
         <Route path="/profile" component={ProfilePage} />
         <Route path="*">
           <NoMatch />

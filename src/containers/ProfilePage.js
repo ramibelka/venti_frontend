@@ -1,28 +1,48 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import "./ProfilePage.css";
-import post1 from "../assets/img/post1.jpg";
-import post2 from "../assets/img/post2.jpg";
-import post3 from "../assets/img/post3.jpg";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import Offers from "../components/Offers";
 import profileImage from "../assets/img/profile-image.jpg";
+import "./ProfilePage.css";
 
-const ProfilePage = () => {
-  const posts = [
-    {
-      id: 1,
-      imageUrl: post1,
-    },
-    {
-      id: 2,
-      imageUrl: post2,
-    },
-    {
-      id: 3,
-      imageUrl: post3,
-    },
-  ];
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { faSpinner, faPlus } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+library.add(faSpinner, faPlus);
 
-  return (
+const ProfilePages = () => {
+  const [data, setData] = useState();
+  const [isLoading, setIsLoading] = useState(true);
+  const offersTitle = "";
+
+  // My Api : https://vinted--le-reacteur.herokuapp.com/offers
+  // Le Reacteur API : https://lereacteur-vinted-api.herokuapp.com/offers
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          //"https://lereacteur-vinted-api.herokuapp.com/offers"
+          "http://127.0.0.1:8000/api/articles/"
+        );
+
+        setData(response.data);
+        setIsLoading(false);
+      } catch (e) {
+        console.log(e.message);
+      }
+    };
+    fetchData();
+  }, []);
+
+  return isLoading ? (
+    <div className="loading">
+      <span className="spin">
+        <FontAwesomeIcon icon="spinner" spin />
+      </span>
+
+      <span>Loading...</span>
+    </div>
+  ) : (
     <div className="profile-container">
       <div className="profile-header">
         <div className="profile-avatar">
@@ -44,19 +64,8 @@ const ProfilePage = () => {
           </ul>
         </div>
       </div>
-      <div className="profile-posts">
-        {posts.map((post) => (
-          <div key={post.id} className="profile-post">
-            <img src={post.imageUrl} alt="Post" />
-          </div>
-        ))}
-      </div>
-      <div className="profile-actions">
-        <Link to="/edit-profile">Edit Profile</Link>
-        {/* Add other profile actions (e.g., settings, logout) */}
-      </div>
+      <Offers data={data} offersTitle={offersTitle} />
     </div>
   );
 };
-
-export default ProfilePage;
+export default ProfilePages;

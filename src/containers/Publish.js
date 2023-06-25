@@ -6,45 +6,47 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 const Publish = ({ userToken }) => {
   const [data, setData] = useState();
   const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
   const [price, setPrice] = useState();
+  const [description, setDescription] = useState("");
+  const [category, setCategory] = useState("");
   const [condition, setCondition] = useState("");
-  const [brand, setBrand] = useState("");
+  const [availability, setAvailability] = useState("");
   const [size, setSize] = useState("");
-  const [color, setColor] = useState("");
-  const [city, setCity] = useState("");
   const [picture, setPicture] = useState();
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
+      setIsLoading(true);
       const formData = new FormData();
-      formData.append("title", title);
+      formData.append("nom_article", title);
+      formData.append("prix", price);
       formData.append("description", description);
-      formData.append("price", price);
-      formData.append("condition", condition);
-      formData.append("brand", brand);
-      formData.append("size", size);
-      formData.append("color", color);
-      formData.append("city", city);
-      formData.append("picture", picture);
+      formData.append("categorie", category);
+      formData.append("disponibilite", availability);
+      formData.append("Etat", condition);
+      formData.append("photo", picture);
+      formData.append("taille", size);
 
+      axios.defaults.withCredentials = true;
       const response = await axios.post(
         "http://127.0.0.1:8000/api/articles/ajouter/",
         formData,
         {
           headers: {
-            authorization: `Bearer ${userToken}`,
+            Authorization: "Token " + userToken,
             "Content-Type": "multipart/form-data",
           },
         }
       );
       setData(response.data);
       setIsLoading(false);
-      console.log(userToken);
     } catch (error) {
-      console.log(error.message);
+      setErrorMessage("Please enter a valid information");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -63,15 +65,17 @@ const Publish = ({ userToken }) => {
               onChange={(event) => {
                 setPicture(event.target.files[0]);
               }}
+              //required
             />
           </div>
 
           <div>
-            <label htmlFor="title">Titre</label>
+            <label htmlFor="title">Title</label>
             <input
               type="text"
               id="title"
               placeholder="ex : Chemise Sézane verte"
+              required
               onChange={(event) => {
                 setTitle(event.target.value);
               }}
@@ -79,22 +83,12 @@ const Publish = ({ userToken }) => {
           </div>
 
           <div>
-            <label htmlFor="description">Décris ton article</label>
-            <textarea
-              id="description"
-              placeholder="ex : porté quelques fois, taille correctement"
-              onChange={(event) => {
-                setDescription(event.target.value);
-              }}
-            ></textarea>
-          </div>
-
-          <div>
-            <label htmlFor="price">Prix</label>
+            <label htmlFor="price">Price</label>
             <input
               type="text"
               id="price"
-              placeholder="00.00 €"
+              placeholder="00.00 DZD"
+              required
               onChange={(event) => {
                 setPrice(event.target.value);
               }}
@@ -102,11 +96,37 @@ const Publish = ({ userToken }) => {
           </div>
 
           <div>
-            <label htmlFor="condition">État</label>
+            <label htmlFor="description">Describe your item</label>
+            <textarea
+              id="description"
+              placeholder="i.e., worn a few times, size correctly"
+              onChange={(event) => {
+                setDescription(event.target.value);
+              }}
+            ></textarea>
+          </div>
+
+          <div>
+            <label htmlFor="category">Category</label>
+            <select
+              id="category"
+              onChange={(event) => {
+                setCategory(event.target.value);
+              }}
+            >
+              <option value="Men">Men</option>
+              <option value="Women">Women</option>
+              <option value="Kids">Kids</option>
+              <option value="Sport">Sport</option>
+            </select>
+          </div>
+
+          <div>
+            <label htmlFor="condition">Condition</label>
             <input
               type="text"
               id="condition"
-              placeholder="ex : Bon état"
+              placeholder="i.e, Good condition"
               onChange={(event) => {
                 setCondition(event.target.value);
               }}
@@ -114,54 +134,36 @@ const Publish = ({ userToken }) => {
           </div>
 
           <div>
-            <label htmlFor="brand">Marque</label>
+            <label htmlFor="Disponibilite">Availability</label>
             <input
               type="text"
-              id="brand"
-              placeholder="ex : Sézane"
+              id="availability"
+              placeholder="i.e, Available"
               onChange={(event) => {
-                setBrand(event.target.value);
+                setAvailability(event.target.value);
               }}
             />
           </div>
 
           <div>
-            <label htmlFor="size">Taille</label>
+            <label htmlFor="size">Size</label>
             <input
               type="text"
               id="size"
-              placeholder="ex : 38"
+              placeholder="i.e, Large"
               onChange={(event) => {
                 setSize(event.target.value);
               }}
             />
           </div>
 
-          <div>
-            <label htmlFor="color">Couleur</label>
-            <input
-              type="text"
-              id="color"
-              placeholder="ex : Vert"
-              onChange={(event) => {
-                setColor(event.target.value);
-              }}
-            />
-          </div>
-
-          <div>
-            <label htmlFor="city">Ville</label>
-            <input
-              type="text"
-              id="city"
-              placeholder="ex : Amsterdam"
-              onChange={(event) => {
-                setCity(event.target.value);
-              }}
-            />
-          </div>
-
-          <input type="submit" value="Ajouter" className="submit btn-green" />
+          <input
+            type="submit"
+            value={isLoading ? "Loading..." : "Ajouter"}
+            className={"submit btn-green"}
+            disabled={isLoading}
+          />
+          <span>{errorMessage}</span>
         </form>
       </div>
     </div>

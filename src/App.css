@@ -22,6 +22,12 @@ body {
   margin: 0 auto;
   width: 90vw;
 }
+.wrapper h1 {
+  font-size: 28px; 
+  color: black;
+  margin: 0; 
+  padding: 20px 20px 0px 0px;
+}
 h1 {
   font-size: 30px;
   margin-bottom: 40px;
@@ -102,7 +108,7 @@ header .search-bar {
   border-radius: 5px;
   border: none;
   padding: 10px;
-  width: 40%;
+  width: 200%;
   height: 5vh;
 }
 header button {
@@ -135,68 +141,6 @@ header .btn-disco {
   background-color: var(--orange-disconnect);
   border: 1px solid var(--orange-disconnect);
   color: var(--white);
-}
-
-/* ------- PAYMENT -------- */
-.form-pay {
-  background-color: var(--light-grey);
-  height: 100vh;
-  padding-top: 15vh;
-}
-.StripeElement {
-  background-color: var(--white);
-  padding: 9px;
-  max-width: 50%;
-  height: 35px;
-  border: 1px solid var(--main-green);
-  border-radius: 3px !important;
-  margin: 0 auto;
-}
-.form-pay input[type="submit" i] {
-  color: var(--white);
-  background-color: var(--main-green);
-  margin-top: 30px;
-  margin-bottom: 30px;
-  border: 1px solid var(--main-green);
-  border-radius: 5px;
-  font-family: "Open Sans", sans-serif;
-  cursor: pointer;
-  font-size: 14px;
-  width: 150px;
-  height: 40px;
-  margin-left: calc(50vw - 150px / 2);
-}
-.form-pay button {
-  color: var(--main-green);
-  border: none !important;
-  text-decoration: underline;
-  margin-top: 15px;
-  background-color: var(--light-grey);
-}
-.form-pay .pay-ok {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-.form-pay p {
-  text-align: center;
-  margin-bottom: 30px;
-  color: var(--main-green);
-}
-.detail-pay {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-.detail-pay div {
-  background-color: var(--white);
-  border-radius: 5px;
-  padding: 10px;
-  width: 50%;
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 10px;
-  color: var(--dark-grey);
 }
 
 /* ------- MODAL - SIGNUP -------- */
@@ -644,6 +588,21 @@ img.avatar-card {
   padding: 10px 15px;
   margin-top: 30px;
 }
+.form-publish form select{
+  margin-right: 100px;
+  width: 200px;
+  height: 30px;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+.form-publish span{
+  color: var(--orange-disconnect);
+  margin-bottom: 20px;
+  font-size: 14px;
+  text-align: center;
+  padding: 20px;
+}
 
 /* Footer */
 footer {
@@ -771,14 +730,6 @@ footer a:hover {
     height: 320px;
   }
 
-  /* Payment */
-  .StripeElement {
-    max-width: 80%;
-  }
-  .detail-pay div {
-    width: 80%;
-  }
-
   /* Modal */
   .modal-content {
     width: 80%;
@@ -869,9 +820,9 @@ footer a:hover {
   header button  {
     display: none;
   }  
-  header a.btn-white{
+  /* header a.btn-white{
     display: none;
-  }
+  } */
 
   .hero h1 {
     font-size: 20px;

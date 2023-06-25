@@ -3,9 +3,8 @@ import { Link } from "react-router-dom";
 const categories = [
   { name: "Men", id: "Men" },
   { name: "Women", id: "Women" },
+  { name: "Kids", id: "Kids" },
   { name: "Sport", id: "Sport" },
-  { name: "Accessories", id: "Accessories" },
-  { name: "More", id: "More" },
 ];
 
 function CategoriesPanel() {

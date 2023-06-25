@@ -1,11 +1,31 @@
 import { Link } from "react-router-dom";
+import { useState } from "react";
 import logo from "../assets/img/vinted-logo.png";
 import Signup from "../components/Signup";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMessage, faUser, faBell } from "@fortawesome/free-regular-svg-icons";
-//import "./Header.css";
+import Logout from "./Logout";
+import axios from "axios";
+import { useHistory } from "react-router-dom";
 
 const Header = ({ setUser, userToken, setShow, show }) => {
+  const [searchInput, setSearchInput] = useState("");
+  const history = useHistory();
+
+  const handleSearch = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.get(
+        `http://localhost:8000/api/articles/search-filter/?search=${searchInput}`
+      );
+      // Process the search results here
+      const searchResults = response.data;
+      history.push("/search", { searchResults });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <header>
       <div className="wrapper">
@@ -13,25 +33,23 @@ const Header = ({ setUser, userToken, setShow, show }) => {
           <img src={logo} alt="Logo Vinted" />
         </Link>
 
-        <input
-          type="search"
-          placeholder="Rechercher des articles"
-          className="search-bar"
-        />
+        <form onSubmit={handleSearch}>
+          <input
+            type="search"
+            placeholder="Search"
+            className="search-bar"
+            value={searchInput}
+            onChange={(e) => setSearchInput(e.target.value)}
+          />
+        </form>
+
         <div>
           {userToken ? (
             <div>
               <Link to="/publish" className="btn-green">
-                Vends tes articles
+                Sell now
               </Link>
-              <button
-                className="btn-disco"
-                onClick={() => {
-                  setUser(null);
-                }}
-              >
-                Se déconnecter
-              </button>
+              <Logout setUser={setUser} />
 
               <Link to="/notifications" className="btn-green">
                 <FontAwesomeIcon icon={faBell} />
