@@ -1,10 +1,9 @@
-// Import the necessary dependencies
 import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import axios from "axios";
 import Offers from "../components/Offers";
 import profileImage from "../assets/img/default-profile-pic.jpg";
 import "./ProfilePage.css";
-import { Link } from "react-router-dom";
 
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faSpinner, faPlus } from "@fortawesome/free-solid-svg-icons";
@@ -14,22 +13,20 @@ library.add(faSpinner, faPlus);
 const ProfilePages = ({ userToken }) => {
   const [data, setData] = useState();
   const [isLoading, setIsLoading] = useState(true);
-  const offersTitle = "My items";
+  const [isFollowing, setIsFollowing] = useState(false);
+  const offersTitle = "";
+  const { id } = useParams();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         axios.defaults.withCredentials = true;
         const response = await axios.get(
-          "http://127.0.0.1:8000/api/profile/current/",
-          {
-            headers: {
-              Authorization: "Token " + userToken,
-            },
-          }
+          `http://127.0.0.1:8000/api/profiles/${id}`
         );
-
-        setData(response.data);
+        const { is_following, ...profileData } = response.data;
+        setData(profileData);
+        setIsFollowing(is_following);
         setIsLoading(false);
       } catch (e) {
         console.log(e.message);
@@ -38,27 +35,18 @@ const ProfilePages = ({ userToken }) => {
     fetchData();
   }, []);
 
-  const handleDeleteArticle = async (articleId) => {
+  const handleFollow = async () => {
     try {
-      axios.defaults.withCredentials = true;
-      const response = await axios.delete(
-        `http://127.0.0.1:8000/api/articles/${articleId}/supprimer/`,
-        {
-          headers: {
-            Authorization: "Token " + userToken.userToken,
-          },
-        }
-      );
-
-      // Remove the deleted article from the state
-      setData((prevData) => ({
-        ...prevData,
-        articles: prevData.articles.filter(
-          (article) => article.id !== articleId
-        ),
-      }));
-
-      console.log(response.data); // Optional: Log the response if needed
+      const endpoint = `http://127.0.0.1:8000/api/profiles/${id}/abonner/`;
+      const method = "POST";
+      await axios({
+        method,
+        url: endpoint,
+        headers: {
+          Authorization: "Token " + userToken,
+        },
+      });
+      setIsFollowing(!isFollowing);
     } catch (error) {
       console.log(error.message);
     }
@@ -69,14 +57,10 @@ const ProfilePages = ({ userToken }) => {
       <span className="spin">
         <FontAwesomeIcon icon="spinner" spin />
       </span>
-
       <span>Loading...</span>
     </div>
   ) : (
     <div className="profile-container">
-      {/* <Link to="/saved">
-        <button>Saved</button>
-      </Link> */}
       <div className="profile-header">
         <div className="profile-avatar">
           <img
@@ -107,13 +91,14 @@ const ProfilePages = ({ userToken }) => {
               following
             </li>
           </ul>
+          {userToken && (
+            <button className="follow-button" onClick={handleFollow}>
+              {isFollowing ? "Unfollow" : "Follow"}
+            </button>
+          )}
         </div>
       </div>
-      <Offers
-        data={data.articles}
-        offersTitle={offersTitle}
-        onDeleteArticle={handleDeleteArticle}
-      />
+      <Offers data={data.articles} offersTitle={offersTitle} show={true} />
     </div>
   );
 };

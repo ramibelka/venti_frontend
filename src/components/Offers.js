@@ -13,35 +13,62 @@ import {
   faBookmark as fasBookmark,
 } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
+import profileImage from "../assets/img/default-profile-pic.jpg";
 
-const Offers = ({ data, offersTitle, show, userToken }) => {
+const Offers = ({ data, offersTitle, show, userToken, isOwner }) => {
   const [likedArticles, setLikedArticles] = useState([]);
   const [savedArticles, setSavedArticles] = useState([]);
 
-  const handleLike = (id) => {
-    const updatedLikedArticles = [...likedArticles];
-    const index = updatedLikedArticles.indexOf(id);
+  const handleLike = async (id) => {
+    try {
+      const endpoint = `http://127.0.0.1:8000/api/articles/${id}/like/`;
+      const config = {
+        headers: {
+          Authorization: `Token ${userToken.userToken}`,
+        },
+      };
 
-    if (index === -1) {
-      updatedLikedArticles.push(id);
-    } else {
-      updatedLikedArticles.splice(index, 1);
+      await axios.post(endpoint, {}, config);
+
+      const updatedLikedArticles = [...likedArticles];
+      const index = updatedLikedArticles.indexOf(id);
+
+      if (index === -1) {
+        updatedLikedArticles.push(id);
+      } else {
+        updatedLikedArticles.splice(index, 1);
+      }
+
+      setLikedArticles(updatedLikedArticles);
+    } catch (error) {
+      console.log("Error liking article:", error);
     }
-
-    setLikedArticles(updatedLikedArticles);
   };
 
-  const handleSave = (id) => {
-    const updatedSavedArticles = [...savedArticles];
-    const index = updatedSavedArticles.indexOf(id);
+  const handleSave = async (id) => {
+    try {
+      const endpoint = `http://127.0.0.1:8000/api/articles/${id}/save/`;
+      const config = {
+        headers: {
+          Authorization: `Token ${userToken.userToken}`,
+        },
+      };
 
-    if (index === -1) {
-      updatedSavedArticles.push(id);
-    } else {
-      updatedSavedArticles.splice(index, 1);
+      await axios.post(endpoint, {}, config);
+
+      const updatedSavedArticles = [...savedArticles];
+      const index = updatedSavedArticles.indexOf(id);
+
+      if (index === -1) {
+        updatedSavedArticles.push(id);
+      } else {
+        updatedSavedArticles.splice(index, 1);
+      }
+
+      setSavedArticles(updatedSavedArticles);
+    } catch (error) {
+      console.log("Error saving article:", error);
     }
-
-    setSavedArticles(updatedSavedArticles);
   };
 
   const isArticleLiked = (id) => {
@@ -60,12 +87,20 @@ const Offers = ({ data, offersTitle, show, userToken }) => {
           <div key={elem.id} className="wrap-card">
             <div className="offer-card">
               {show ? (
-                <div className="avatar-card">
-                  {elem.photo ? (
-                    <img src={elem.photo} alt="/" className="avatar-card" />
-                  ) : null}
-                  <span>{elem.auteur}</span>
-                </div>
+                <Link to={`/profiles/${elem.auteur_id}`}>
+                  <div className="avatar-card">
+                    <img
+                      src={
+                        elem.photo_de_profile
+                          ? elem.photo_de_profile
+                          : profileImage
+                      }
+                      alt="/"
+                      className="avatar-card"
+                    />
+                    <span>{elem.auteur}</span>
+                  </div>
+                </Link>
               ) : (
                 <div> </div>
               )}

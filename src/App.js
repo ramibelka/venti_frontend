@@ -20,6 +20,11 @@ import CategoriesPanel from "./components/CategoriesPanel";
 import Messages from "./containers/Messages";
 import ProfilePage from "./containers/ProfilePage";
 import Search from "./containers/Search";
+import Notifications from "./containers/Notifications";
+import Category from "./containers/Category";
+import Profiles from "./containers/Profiles";
+import Saved from "./components/Saved";
+import Edit from "./containers/Edit";
 
 function App() {
   const [userToken, setUserToken] = useState(null);
@@ -62,6 +67,9 @@ function App() {
         <Route path="/offer/:id">
           <Offer userToken={userToken} setUser={setUser} />
         </Route>
+        <Route path="/category/:category">
+          <Category userToken={userToken} />
+        </Route>
         <Route path="/publish">
           {userToken ? (
             <Publish userToken={userToken} setUserToken={setUserToken} />
@@ -70,13 +78,41 @@ function App() {
           )}
         </Route>
         <Route path="/messages">
-          <Messages />
+          {userToken ? <Messages /> : <Redirect to="/login" />}
+        </Route>
+        <Route path="/notifications">
+          {userToken ? (
+            <Notifications userToken={userToken} />
+          ) : (
+            <Redirect to="/login" />
+          )}
         </Route>
         <Route exact path="/">
           <Home userToken={userToken} />
         </Route>
-        <Route path="/search" component={Search} />
-        <Route path="/profile" component={ProfilePage} />
+        <Route path="/search">
+          <Search userToken={userToken} />
+        </Route>
+        <Route path="/profile">
+          {userToken ? (
+            <ProfilePage userToken={userToken} />
+          ) : (
+            <Redirect to="/login" />
+          )}
+        </Route>
+        <Route path="/profiles/:id">
+          <Profiles userToken={userToken} />
+        </Route>
+        <Route path="/saved">
+          <Saved userToken={userToken} />
+        </Route>
+        <Route path="/edit/:articleId">
+          {userToken ? (
+            <Edit userToken={userToken} setUserToken={setUserToken} />
+          ) : (
+            <Redirect to="/login" />
+          )}
+        </Route>
         <Route path="*">
           <NoMatch />
         </Route>

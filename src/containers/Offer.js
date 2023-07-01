@@ -1,14 +1,14 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import axios from "axios";
-//import "./Offer.css";
+import CommentSection from "../components/CommentSection";
+import { Link } from "react-router-dom";
 
 const Offer = ({ userToken, setUser }) => {
   const [data, setData] = useState();
   const [isLoading, setIsLoading] = useState(true);
 
   const history = useHistory();
-
   const { id } = useParams();
 
   useEffect(() => {
@@ -23,8 +23,29 @@ const Offer = ({ userToken, setUser }) => {
         console.log(e.message);
       }
     };
+
     fetchData();
   }, [id]);
+
+  const handleEdit = () => {
+    history.push(`/edit/${id}`);
+  };
+
+  const handleDelete = async () => {
+    try {
+      await axios.delete(
+        `http://127.0.0.1:8000/api/articles/${id}/supprimer/`,
+        {
+          headers: {
+            Authorization: "Token " + userToken,
+          },
+        }
+      );
+      history.push("/");
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return isLoading ? (
     <span>En cours de chargement...</span>
@@ -47,14 +68,6 @@ const Offer = ({ userToken, setUser }) => {
                 <div>
                   <p>{data.description}</p>
                 </div>
-
-                {/* {data.map((elem, index) => {
-                  return elem.description ? (
-                    <div key={index}>
-                      <p>{elem.description}</p>
-                    </div>
-                  ) : null;
-                })} */}
                 <div>
                   <p>{data.Etat}</p>
                 </div>
@@ -64,20 +77,36 @@ const Offer = ({ userToken, setUser }) => {
             <div className="bloc-2">
               <p>{data.nom_article}</p>
               <p>{data.description}</p>
-              <div>
-                {data.photo ? <img src={data.photo} alt="/" /> : null}
-                <span>{data.auteur}</span>
-              </div>
+              <Link to={`/profiles/${data.auteur_id}`}>
+                <div>
+                  {data.photo ? <img src={data.photo} alt="/" /> : null}
+                  <span>{data.auteur}</span>{" "}
+                  <button
+                    className="btn-white"
+                    onClick={() => {
+                      history.push("/Messages");
+                    }}
+                  >
+                    Send message
+                  </button>
+                </div>
+              </Link>
             </div>
-            <button
-              className="btn-green"
-              onClick={() => {
-                history.push("/Messages");
-              }}
-            >
-              Send message
+            <button className="btn-green" onClick={handleEdit}>
+              Edit
             </button>
+            <button className="btn-green" onClick={handleDelete}>
+              Delete
+            </button>
+            {!userToken && <span>NOT ALLOWED</span>}
           </div>
+
+          <CommentSection
+            userToken={userToken}
+            articleId={id}
+            data={data}
+            setData={setData}
+          />
         </div>
       </main>
     </>

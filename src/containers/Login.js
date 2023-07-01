@@ -68,6 +68,7 @@ const Login = (props) => {
         localStorage.setItem("authToken", key);
         fetchArticlesData(key); // Fetch articles data using the updated user token
         history.push("/publish");
+        return;
       }
       setIsLoading(false);
     } catch (error) {
@@ -76,7 +77,7 @@ const Login = (props) => {
         return;
       }
 
-      if (error.response && error.response.status === 403) {
+      if (error.response) {
         setErrorMessage("⛔️ Invalid email and/or password.");
         setIsLoading(false);
       }
@@ -88,7 +89,7 @@ const Login = (props) => {
       <div className="login-form wrapper">
         <h2>Login</h2>
         <form className="login-form" onSubmit={handleSubmit}>
-          <input type="text" placeholder="Email" onChange={handleUsername} />
+          <input type="text" placeholder="Username" onChange={handleUsername} />
           <input
             type="password"
             placeholder="Password"

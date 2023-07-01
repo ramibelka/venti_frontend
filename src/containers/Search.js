@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useLocation } from "react-router-dom";
 library.add(faSpinner, faPlus);
 
-const Search = (userToken = { userToken }) => {
+const Search = (userToken) => {
   const [data, setData] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const offersTitle = "Results";

@@ -4,10 +4,10 @@ const NoMatch = () => {
   return (
     <div className="not-found">
       <img src={notFound} alt="404 not found" />
-      <h1>La page n'existe pas</h1>
+      <h1>Page does not exist</h1>
       <p>
-        Désolé, mais on dirait que cette page n'existe plus. Pourquoi ne pas
-        revenir en arrière et essayer autre chose ?
+        Sorry, but it looks like this page doesn’t exist anymore. Why don’t we
+        go back and try something else?
       </p>
     </div>
   );

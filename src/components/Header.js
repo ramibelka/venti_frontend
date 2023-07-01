@@ -60,6 +60,8 @@ const Header = ({ setUser, userToken, setShow, show }) => {
               </Link>
 
               <Link to="/profile" className="btn-green">
+                {" "}
+                {/**zid zero hna fel url*/}
                 <FontAwesomeIcon icon={faUser} />
               </Link>
             </div>
@@ -71,7 +73,7 @@ const Header = ({ setUser, userToken, setShow, show }) => {
                   setShow(true);
                 }}
               >
-                S'inscrire
+                Signup
               </button>
               <Signup
                 onClose={() => setShow(false)}
@@ -79,10 +81,10 @@ const Header = ({ setUser, userToken, setShow, show }) => {
                 setUser={setUser}
               />
               <Link to="/login" className="btn-white">
-                Se connecter
+                Login
               </Link>
               <Link to="/publish" className="btn-green">
-                Vends tes articles
+                Sell now
               </Link>
             </>
           )}

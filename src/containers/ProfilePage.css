@@ -80,4 +80,19 @@
   }
   
   /* Additional styling can be added as per your requirements */
+  .follow-button {
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .following {
+    background-color: #e74c3c;
+  }
   

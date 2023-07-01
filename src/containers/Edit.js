@@ -1,21 +1,46 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-//import "./Publish.css";
+// import "./Publish.css";
 
-const Publish = ({ userToken }) => {
+const Edit = ({ userToken }) => {
   const [data, setData] = useState();
   const [title, setTitle] = useState("");
-  const [price, setPrice] = useState();
+  const [price, setPrice] = useState("");
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("");
   const [condition, setCondition] = useState("");
   const [availability, setAvailability] = useState("");
   const [size, setSize] = useState("");
-  const [picture, setPicture] = useState();
+  const [picture, setPicture] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
+
+  const { articleId } = useParams();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          `http://127.0.0.1:8000/api/articles/${articleId}`
+        );
+        setData(response.data);
+        setTitle(response.data.nom_article);
+        setPrice(response.data.prix);
+        setDescription(response.data.description);
+        setCategory(response.data.categorie);
+        setCondition(response.data.Etat);
+        setAvailability(response.data.disponibilite);
+        setSize(response.data.taille);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchData();
+  }, [articleId]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -28,12 +53,14 @@ const Publish = ({ userToken }) => {
       formData.append("categorie", category);
       formData.append("disponibilite", availability);
       formData.append("Etat", condition);
-      formData.append("photo", picture);
+      if (picture) {
+        formData.append("photo", picture);
+      }
       formData.append("taille", size);
 
       axios.defaults.withCredentials = true;
-      const response = await axios.post(
-        "http://127.0.0.1:8000/api/articles/ajouter/",
+      const response = await axios.patch(
+        `http://127.0.0.1:8000/api/articles/${articleId}/modifier/`,
         formData,
         {
           headers: {
@@ -43,12 +70,11 @@ const Publish = ({ userToken }) => {
         }
       );
       setData(response.data);
-      setSuccessMsg("Article added successfully");
+      setSuccessMsg("Article updated successfully");
       setErrorMessage("");
       setIsLoading(false);
     } catch (error) {
-      setErrorMessage("Please enter a valid information");
-    } finally {
+      setErrorMessage("Please enter valid information");
       setIsLoading(false);
     }
   };
@@ -66,10 +92,10 @@ const Publish = ({ userToken }) => {
             <input
               type="file"
               id="file"
+              accept="image/*"
               onChange={(event) => {
                 setPicture(event.target.files[0]);
               }}
-              //required
             />
           </div>
 
@@ -79,7 +105,7 @@ const Publish = ({ userToken }) => {
               type="text"
               id="title"
               placeholder="ex : Chemise Sézane verte"
-              required
+              value={title}
               onChange={(event) => {
                 setTitle(event.target.value);
               }}
@@ -92,7 +118,7 @@ const Publish = ({ userToken }) => {
               type="text"
               id="price"
               placeholder="00.00 DZD"
-              required
+              value={price}
               onChange={(event) => {
                 setPrice(event.target.value);
               }}
@@ -104,6 +130,7 @@ const Publish = ({ userToken }) => {
             <textarea
               id="description"
               placeholder="i.e., worn a few times, size correctly"
+              value={description}
               onChange={(event) => {
                 setDescription(event.target.value);
               }}
@@ -114,11 +141,12 @@ const Publish = ({ userToken }) => {
             <label htmlFor="category">Category</label>
             <select
               id="category"
+              value={category}
               onChange={(event) => {
                 setCategory(event.target.value);
               }}
             >
-              <option value="none" selected disabled hidden>
+              <option value="none" disabled hidden>
                 Select an Option
               </option>
               <option value="Men">Men</option>
@@ -134,6 +162,7 @@ const Publish = ({ userToken }) => {
               type="text"
               id="condition"
               placeholder="i.e, Good condition"
+              value={condition}
               onChange={(event) => {
                 setCondition(event.target.value);
               }}
@@ -141,11 +170,12 @@ const Publish = ({ userToken }) => {
           </div>
 
           <div>
-            <label htmlFor="Disponibilite">Availability</label>
+            <label htmlFor="availability">Availability</label>
             <input
               type="text"
               id="availability"
               placeholder="i.e, Available"
+              value={availability}
               onChange={(event) => {
                 setAvailability(event.target.value);
               }}
@@ -158,6 +188,7 @@ const Publish = ({ userToken }) => {
               type="text"
               id="size"
               placeholder="i.e, Large"
+              value={size}
               onChange={(event) => {
                 setSize(event.target.value);
               }}
@@ -166,8 +197,8 @@ const Publish = ({ userToken }) => {
 
           <input
             type="submit"
-            value={isLoading ? "Loading..." : "Ajouter"}
-            className={"submit btn-green"}
+            value={isLoading ? "Loading..." : "Update"}
+            className="submit btn-green"
             disabled={isLoading}
           />
           <span className="error-msg">{errorMessage}</span>
@@ -177,4 +208,4 @@ const Publish = ({ userToken }) => {
   );
 };
 
-export default Publish;
+export default Edit;

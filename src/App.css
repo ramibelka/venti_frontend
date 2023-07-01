@@ -52,6 +52,7 @@ button {
 .btn-white {
   color: var(--main-green);
   background-color: var(--white);
+  margin: 5px;
 }
 .btn-green {
   background-color: var(--main-green);
@@ -427,6 +428,7 @@ img.avatar-card {
 .product-card {
   width: 100%;
   height: 357px;
+  border-radius: 5%;
 }
 
 /* Details - offers */
@@ -461,7 +463,8 @@ img.avatar-card {
 }
 .offer-page .carousel img {
   height: 80vh;
-  width: calc(100% / 2);
+  /*width: calc(100% / 2);*/
+  width: 100%;
   object-fit: cover;
   border-radius: 5px;
   margin-right: 2px;
@@ -513,6 +516,63 @@ img.avatar-card {
   padding: 10px;
   width: 100%;
 }
+/****/
+.offer-comments {
+  margin-top: 20px;
+  padding-left: 10px;
+}
+
+.offer-comments h2 {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+.offer-comments .comment {
+  position: relative;
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.offer-comments .comment p {
+  margin-bottom: 5px;
+}
+
+.delete-button {
+  border: none;
+  cursor: pointer;
+  font-size: 0.9rem;
+  padding: 5px;
+}
+
+.offer-comments .comment p .delete-button:hover {
+  color: #990000;
+}
+
+.offer-comments .comment p .delete-button .cross-icon {
+  margin-right: 5px;
+}
+
+.offer-comments .add-comment {
+  margin-top: 20px;
+}
+
+.offer-comments .add-comment textarea {
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 5px;
+  border: 1px solid #ccc;
+}
+
+.offer-comments .add-comment button {
+  background-color: #4caf50;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  padding: 5px 10px;
+}
+
 
 /* Publish an offer */
 .form-publish {
@@ -596,11 +656,20 @@ img.avatar-card {
   border: 1px solid #ccc;
   border-radius: 4px;
 }
-.form-publish span{
+
+
+.error-msg{
   color: var(--orange-disconnect);
   margin-bottom: 20px;
   font-size: 14px;
   text-align: center;
+  padding: 20px;
+}
+.success-msg{
+  color: green;
+  margin:auto;
+  display:table;
+  font-size: 28px;
   padding: 20px;
 }
 
@@ -650,6 +719,7 @@ footer a:hover {
   }
 }
 .icons-container {
+  margin-left: 10px;
   display: flex;
   align-items: center;
 }
