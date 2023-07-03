@@ -4,7 +4,7 @@
 /* Variables */
 :root {
   /* Colors 09aeb7  Open Sans*/
-  --main-green: #1c4b82;
+  --main-blue: #1c4b82;
   --light-grey: #f5f6f7;
   --dark-grey: #adadad;
   --orange-disconnect: #ffa07a;
@@ -43,19 +43,19 @@ a:-webkit-any-link {
 
 /* Buttons */
 button {
-  border: 1px solid var(--main-green);
+  border: 1px solid var(--main-blue);
   border-radius: 5px;
   font-family: "Open Sans", sans-serif;
   cursor: pointer;
   font-size: 14px;
 }
 .btn-white {
-  color: var(--main-green);
+  color: var(--main-blue);
   background-color: var(--white);
   margin: 5px;
 }
 .btn-green {
-  background-color: var(--main-green);
+  background-color: var(--main-blue);
   color: var(--white);
   margin: 2px;
 }
@@ -117,10 +117,10 @@ header button {
   margin-right: 10px;
 }
 header a.btn-white {
-  color: var(--main-green);
+  color: var(--main-blue);
   background-color: var(--white);
   margin-right: 10px;
-  border: 1px solid var(--main-green);
+  border: 1px solid var(--main-blue);
   border-radius: 5px;
   font-family: "Open Sans", sans-serif;
   cursor: pointer;
@@ -129,9 +129,9 @@ header a.btn-white {
 }
 header a.btn-green {
   padding: 5px 10px;
-  background-color: var(--main-green);
+  background-color: var(--main-blue);
   color: var(--white);
-  border: 1px solid var(--main-green);
+  border: 1px solid var(--main-blue);
   border-radius: 5px;
   font-family: "Open Sans", sans-serif;
   cursor: pointer;
@@ -191,10 +191,10 @@ header .btn-disco {
 }
 /*added from publish*/
 .modal-body .upload-file {
-  color: var(--main-green);
+  color: var(--main-blue);
   font-weight: 600;
   margin: 0 auto;
-  border: 1px solid var(--main-green);
+  border: 1px solid var(--main-blue);
   padding: 10px;
   border-radius: 5px;
   cursor: pointer;
@@ -204,7 +204,7 @@ header .btn-disco {
 }
 
 .form-publish .upload-file:hover {
-  background-color: var(--main-green);
+  background-color: var(--main-blue);
   color: var(--white);
 }
 
@@ -238,7 +238,7 @@ header .btn-disco {
   margin-bottom: 40px;
 }
 .modal-body input.btn-green {
-  border: 1px solid var(--main-green);
+  border: 1px solid var(--main-blue);
   border-radius: 5px;
   font-family: "Open Sans", sans-serif;
   cursor: pointer;
@@ -249,7 +249,7 @@ header .btn-disco {
 .modal-body a {
   font-size: 12px;
   text-align: center;
-  color: var(--main-green);
+  color: var(--main-blue);
 }
 .modal-body a:hover {
   text-decoration: underline;
@@ -269,7 +269,7 @@ header .btn-disco {
   text-decoration: underline;
   font-size: 12px;
   font-weight: 600;
-  color: var(--main-green);
+  color: var(--main-blue);
 }
 .modal-footer button:hover {
   background-color: var(--light-grey);
@@ -313,7 +313,7 @@ form.login-form {
 }
 .login-form span.redir-signup {
   font-size: 12px;
-  color: var(--main-green);
+  color: var(--main-blue);
 }
 .login-form span.redir-signup:hover {
   text-decoration: underline;
@@ -355,7 +355,7 @@ form.login-form {
   font-size: 16px;
   margin-bottom: 15px;
   color: white;
-  background-color: var(--main-green);
+  background-color: var(--main-blue);
   border-radius: 10px;
 }
 */
@@ -628,10 +628,10 @@ img.avatar-card {
   display: none;
 }
 .form-publish .upload-file {
-  color: var(--main-green);
+  color: var(--main-blue);
   font-weight: 600;
   margin: 0 auto;
-  border: 1px solid var(--main-green);
+  border: 1px solid var(--main-blue);
   padding: 10px;
   border-radius: 5px;
   cursor: pointer;
@@ -640,7 +640,7 @@ img.avatar-card {
   margin-right: 10px;
 }
 .form-publish .upload-file:hover {
-  background-color: var(--main-green);
+  background-color: var(--main-blue);
   color: var(--white);
 }
 .form-publish label {
@@ -662,9 +662,9 @@ img.avatar-card {
 .form-publish form input.submit {
   margin-left: 0;
   margin: 0 auto;
-  background-color: var(--main-green);
+  background-color: var(--main-blue);
   color: var(--white);
-  border: 1px solid var(--main-green);
+  border: 1px solid var(--main-blue);
   border-radius: 5px;
   font-family: "Open Sans", sans-serif;
   cursor: pointer;
@@ -709,7 +709,7 @@ footer a {
   font-weight: bold;
 }
 footer a:hover {
-  color: var(--main-green);
+  color: var(--main-blue);
 }
 
 /* ----- MEDIA QUEYRIES ----- */

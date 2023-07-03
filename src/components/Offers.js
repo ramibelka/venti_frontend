@@ -30,25 +30,26 @@ const Offers = ({ data, offersTitle, show, userToken, setData }) => {
         },
       };
 
+      // Send a POST request to the server to like the article
       await axios.post(endpoint, {}, config);
 
       const updatedLikedArticles = [...likedArticles];
       const index = updatedLikedArticles.indexOf(id);
       if (!data[id].is_liked) {
-        updatedLikedArticles.push(id);
+        updatedLikedArticles.push(id); // Add the article ID to the liked articles list
       } else {
         if (index === -1) {
           updatedLikedArticles.push(id);
         } else {
-          updatedLikedArticles.splice(index, 1);
+          updatedLikedArticles.splice(index, 1); // Remove the article ID from the liked articles list
         }
       }
-      fetchArticlesData();
+      fetchArticlesData(); // Fetch updated article data
 
-      setLikedArticles(updatedLikedArticles);
+      setLikedArticles(updatedLikedArticles); // Update the liked articles state
     } catch (error) {
       console.log("Error liking article:", error);
-      history.push("/login");
+      history.push("/login"); // Redirect to login page in case of an error
     }
   };
 
@@ -61,26 +62,27 @@ const Offers = ({ data, offersTitle, show, userToken, setData }) => {
         },
       };
 
+      // Send a POST request to the server to save the article
       await axios.post(endpoint, {}, config);
 
       const updatedSavedArticles = [...savedArticles];
       const index = updatedSavedArticles.indexOf(id);
 
       if (!data[id].is_saved) {
-        updatedSavedArticles.push(id);
+        updatedSavedArticles.push(id); // Add the article ID to the saved articles list
       } else {
         if (index === -1) {
           updatedSavedArticles.push(id);
         } else {
-          updatedSavedArticles.splice(index, 1);
+          updatedSavedArticles.splice(index, 1); // Remove the article ID from the saved articles list
         }
       }
-      fetchArticlesData();
+      fetchArticlesData(); // Fetch updated article data
 
-      setSavedArticles(updatedSavedArticles);
+      setSavedArticles(updatedSavedArticles); // Update the saved articles state
     } catch (error) {
       console.log("Error saving article:", error);
-      history.push("/login");
+      history.push("/login"); // Redirect to login page in case of an error
     }
   };
 
@@ -99,7 +101,7 @@ const Offers = ({ data, offersTitle, show, userToken, setData }) => {
           Authorization: `Token ${userToken}`,
         },
       });
-      setData(response.data);
+      setData(response.data); // Update the article data state with the fetched data
     } catch (error) {
       console.log(error);
     }

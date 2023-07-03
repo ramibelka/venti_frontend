@@ -84,20 +84,22 @@ const Offer = ({ userToken }) => {
             <div className="bloc-2">
               <p>{data.nom_article}</p>
               <p>{data.description}</p>
-              <Link to={`/profiles/${data.auteur_id}`}>
-                <div>
-                  {data.photo ? <img src={data.photo} alt="/" /> : null}
-                  <span>{data.auteur}</span>{" "}
-                  <button
-                    className="btn-white"
-                    onClick={() => {
-                      history.push("/Messages");
-                    }}
-                  >
-                    Send message
-                  </button>
-                </div>
-              </Link>
+              <div>
+                <Link to={`/profiles/${data.auteur_id}`}>
+                  <div>
+                    {data.photo ? <img src={data.photo} alt="/" /> : null}
+                    <span>{data.auteur}</span>{" "}
+                  </div>
+                </Link>
+                <button
+                  className="btn-white"
+                  onClick={() => {
+                    history.push("/Messages");
+                  }}
+                >
+                  Send message
+                </button>
+              </div>
             </div>
             {userToken && (
               <>
