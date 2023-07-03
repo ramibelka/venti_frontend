@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import axios from "axios";
 //import "./Offers.css";
 
@@ -18,6 +18,8 @@ import profileImage from "../assets/img/default-profile-pic.jpg";
 const Offers = ({ data, offersTitle, show, userToken, setData }) => {
   const [likedArticles, setLikedArticles] = useState([]);
   const [savedArticles, setSavedArticles] = useState([]);
+
+  const history = useHistory();
 
   const handleLike = async (id) => {
     try {
@@ -46,6 +48,7 @@ const Offers = ({ data, offersTitle, show, userToken, setData }) => {
       setLikedArticles(updatedLikedArticles);
     } catch (error) {
       console.log("Error liking article:", error);
+      history.push("/login");
     }
   };
 
@@ -77,16 +80,17 @@ const Offers = ({ data, offersTitle, show, userToken, setData }) => {
       setSavedArticles(updatedSavedArticles);
     } catch (error) {
       console.log("Error saving article:", error);
+      history.push("/login");
     }
   };
 
-  const isArticleLiked = (id) => {
-    return likedArticles.includes(id);
-  };
+  // const isArticleLiked = (id) => {
+  //   return likedArticles.includes(id);
+  // };
 
-  const isArticleSaved = (id) => {
-    return savedArticles.includes(id);
-  };
+  // const isArticleSaved = (id) => {
+  //   return savedArticles.includes(id);
+  // };
 
   const fetchArticlesData = async () => {
     try {
