@@ -189,6 +189,30 @@ header .btn-disco {
   justify-content: center;
   margin-bottom: 30px;
 }
+/*added from publish*/
+.modal-body .upload-file {
+  color: var(--main-green);
+  font-weight: 600;
+  margin: 0 auto;
+  border: 1px solid var(--main-green);
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.form-publish .upload-file:hover {
+  background-color: var(--main-green);
+  color: var(--white);
+}
+
+.modal-body input#file {
+  display: none;
+}
+
+/**/
 .modal-body .input-form input {
   margin-bottom: 15px;
   padding: 10px;
@@ -748,7 +772,10 @@ footer a:hover {
 .icons-container .icon.red {
   color: red;
 }
-
+.icons-container span{
+  color: black;
+  padding: 2px;
+}
 
 @media (max-width: 1024px) {
   /* Header */

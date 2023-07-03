@@ -8,8 +8,8 @@ import { faSpinner, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 library.add(faSpinner, faPlus);
 
-const Category = (userToken) => {
-  const [data, setData] = useState();
+const Category = ({ userToken }) => {
+  const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   const { category } = useParams();
@@ -20,8 +20,8 @@ const Category = (userToken) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        setIsLoading(true);
         const response = await axios.get(
-          //"https://lereacteur-vinted-api.herokuapp.com/offers"
           `http://127.0.0.1:8000/api/articles/${category}`
         );
 
@@ -32,7 +32,7 @@ const Category = (userToken) => {
       }
     };
     fetchData();
-  }, []);
+  }, [category]);
 
   return isLoading ? (
     <div className="loading">
@@ -47,10 +47,11 @@ const Category = (userToken) => {
       <Offers
         data={data}
         offersTitle={category.toUpperCase()}
-        show={true}
+        show={show}
         userToken={userToken}
       />
     </div>
   );
 };
+
 export default Category;

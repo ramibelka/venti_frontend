@@ -4,7 +4,7 @@ import axios from "axios";
 import CommentSection from "../components/CommentSection";
 import { Link } from "react-router-dom";
 
-const Offer = ({ userToken, setUser }) => {
+const Offer = ({ userToken }) => {
   const [data, setData] = useState();
   const [isLoading, setIsLoading] = useState(true);
 
@@ -60,16 +60,23 @@ const Offer = ({ userToken, setUser }) => {
             <p className="offer-price">{data.prix} DZD</p>
             <div className="bloc-1">
               <div>
-                <p>Description</p>
-                <p>Disponibilite</p>
-                <p>Etat</p>
+                <p>Availability</p>
+                <p>Condition</p>
+                <p>Size</p>
+                <p>Category</p>
               </div>
               <div>
                 <div>
-                  <p>{data.description}</p>
+                  <p>{data.disponibilite}</p>
                 </div>
                 <div>
                   <p>{data.Etat}</p>
+                </div>
+                <div>
+                  <p>{data.taille}</p>
+                </div>
+                <div>
+                  <p>{data.categorie}</p>
                 </div>
               </div>
             </div>
@@ -92,13 +99,16 @@ const Offer = ({ userToken, setUser }) => {
                 </div>
               </Link>
             </div>
-            <button className="btn-green" onClick={handleEdit}>
-              Edit
-            </button>
-            <button className="btn-green" onClick={handleDelete}>
-              Delete
-            </button>
-            {!userToken && <span>NOT ALLOWED</span>}
+            {userToken && (
+              <>
+                <button className="btn-green" onClick={handleEdit}>
+                  Edit
+                </button>
+                <button className="btn-green" onClick={handleDelete}>
+                  Delete
+                </button>
+              </>
+            )}
           </div>
 
           <CommentSection

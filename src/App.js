@@ -23,7 +23,7 @@ import Search from "./containers/Search";
 import Notifications from "./containers/Notifications";
 import Category from "./containers/Category";
 import Profiles from "./containers/Profiles";
-import Saved from "./components/Saved";
+import Saved from "./containers/Saved";
 import Edit from "./containers/Edit";
 
 function App() {
@@ -33,6 +33,7 @@ function App() {
   useEffect(() => {
     const token = Cookies.get("token");
     const userId = Cookies.get("userId");
+
     if (token && userId) {
       setUserToken(token);
     }
@@ -62,7 +63,7 @@ function App() {
       <CategoriesPanel />
       <Switch>
         <Route path="/login">
-          <Login setUser={setUser} setShow={setShow} />
+          <Login setUser={setUser} setShow={setShow} userToken={userToken} />
         </Route>
         <Route path="/offer/:id">
           <Offer userToken={userToken} setUser={setUser} />

@@ -1,98 +1,168 @@
 .profile-container {
-    max-width: 800px;
-    margin: 10 auto;
-    padding: 20px;
-  }
-  
-  .profile-header {
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
-  }
-  
-  .profile-avatar {
-    width: 100px;
-    height: 100px;
-    overflow: hidden;
-    border-radius: 50%;
-    margin-right: 20px;
-  }
-  
-  .profile-avatar img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-  
-  .profile-info {
-    flex-grow: 1;
-  }
-  
-  .profile-username {
-    font-size: 24px;
-    font-weight: bold;
-  }
-  
-  .profile-bio {
-    font-size: 16px;
-    margin-bottom: 10px;
-  }
-  
-  .profile-stats {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-  }
-  
-  .profile-stats li {
-    margin-right: 20px;
-  }
-  
-  .profile-stat-count {
-    font-weight: bold;
-  }
-  
-  .profile-posts {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-gap: 10px;
-  }
-  
-  .profile-post img {
-    width: 80%;
-    height: 100%;
-    object-fit: cover;
-  }
-  
-  .profile-actions {
-    margin-top: 20px;
-  }
-  
-  .profile-actions a {
-    display: inline-block;
-    padding: 10px 20px;
-    background-color: #3897f0;
-    color: #fff;
-    text-decoration: none;
-    border-radius: 5px;
-    font-weight: bold;
-  }
-  
-  /* Additional styling can be added as per your requirements */
-  .follow-button {
-    background-color: #3498db;
-    color: #fff;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 4px;
-    font-weight: bold;
-    cursor: pointer;
-    margin-top: 10px;
-    transition: background-color 0.3s ease;
-  }
-  
-  .following {
-    background-color: #e74c3c;
-  }
-  
+  margin: 10px auto;
+  padding: 20px;
+}
+
+.profile-header {
+  display: flex;
+  align-items: center;
+  padding-left: 30px;
+  margin-bottom: 20px;
+}
+
+.profile-avatar-1 {
+  width: 100px;
+  height: 100px;
+  overflow: hidden;
+  border-radius: 50%;
+  margin-right: 20px;
+  margin-bottom: 20px;
+}
+.profile-avatar-2 {
+  width: 100px;
+  height: 100px;
+  overflow: hidden;
+  border-radius: 50%;
+  margin-right: 20px;
+  margin-bottom: 140px;
+}
+
+.profile-avatar-1 img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.profile-avatar-2 img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.profile-info {
+  flex-grow: 1;
+}
+
+.profile-username {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.profile-bio {
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+.profile-stats {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.profile-stats li {
+  margin-right: 20px;
+  font-size: 14px;
+}
+
+.profile-stat-count {
+  font-weight: bold;
+}
+
+.profile-posts {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 10px;
+}
+
+.profile-post img {
+  width: 80%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.profile-actions {
+  margin-top: 20px;
+}
+
+.profile-actions a {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #3897f0;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+.follow-button {
+  background-color: #3498db;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.saved-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: #333;
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.saved-icon {
+  margin-right: 5px;
+}
+
+.saved-text {
+  font-weight: bold;
+}
+
+.profile-rating {
+  margin-bottom: 20px;
+}
+
+.profile-rating p {
+  padding: 3px;
+}
+
+.rating-bar {
+  padding-bottom: 5px;
+  margin-top: 10px;
+  align-items: center;
+}
+
+.rating-bar span,
+.star-icon {
+  cursor: pointer;
+  margin-right: 5px;
+}
+
+.star-icon {
+  font-size: 24px;
+  color: #ccc;
+}
+
+.star-icon.active,
+.star-icon:hover {
+  color: #fadb14;
+}
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  margin-top: 50px;
+}
+
+.spin {
+  margin-right: 10px;
+}

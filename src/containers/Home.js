@@ -8,30 +8,31 @@ import { faSpinner, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 library.add(faSpinner, faPlus);
 
-const Home = (userToken = { userToken }) => {
+const Home = ({ userToken }) => {
   const [data, setData] = useState();
   const [isLoading, setIsLoading] = useState(true);
   const offersTitle = "Popular items";
   const show = true;
 
+  const token = localStorage.getItem("authToken");
+
   // My Api : https://vinted--le-reacteur.herokuapp.com/offers
   // Le Reacteur API : https://lereacteur-vinted-api.herokuapp.com/offers
+  let headers = "";
   if (userToken) {
-    const headers = {
+    headers = {
       headers: {
-        Authorization: "Token " + userToken,
-        "Content-Type": "multipart/form-data",
+        Authorization: `Token ${userToken}`,
       },
     };
-  } else {
-    const headers = "";
   }
   useEffect(() => {
     const fetchData = async () => {
       try {
+        //axios.defaults.withCredentials = true;
         const response = await axios.get(
-          //"https://lereacteur-vinted-api.herokuapp.com/offers"
-          "http://127.0.0.1:8000/api/articles/"
+          "http://127.0.0.1:8000/api/articles/",
+          headers
         );
 
         setData(response.data);
@@ -59,6 +60,7 @@ const Home = (userToken = { userToken }) => {
         offersTitle={offersTitle}
         show={show}
         userToken={userToken}
+        setData={setData}
       />
     </div>
   );

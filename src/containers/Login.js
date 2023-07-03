@@ -3,11 +3,15 @@ import { useHistory } from "react-router-dom";
 import axios from "axios";
 
 const Login = (props) => {
-  const { setUser, setShow } = props;
+  const history = useHistory();
+  const { setUser, setShow, userToken } = props;
+  if (userToken) {
+    history.push("/");
+  }
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  const history = useHistory();
+
   const [modal, setModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -34,11 +38,9 @@ const Login = (props) => {
   const fetchArticlesData = async (userToken) => {
     try {
       const response = await axios.get("http://127.0.0.1:8000/api/articles", {
-        headers: {
-          Authorization: `Token ${userToken}`,
-        },
+        withCredentials: true,
       });
-      // Process the articles data here
+      history.push("/", response.data);
       // ...
     } catch (error) {
       console.log(error);
@@ -67,7 +69,7 @@ const Login = (props) => {
         setUser(key);
         localStorage.setItem("authToken", key);
         fetchArticlesData(key); // Fetch articles data using the updated user token
-        history.push("/publish");
+        //history.push("/publish");
         return;
       }
       setIsLoading(false);

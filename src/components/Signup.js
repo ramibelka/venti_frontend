@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import axios from "axios";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUser } from "@fortawesome/free-solid-svg-icons";
 //import "./Signup.css"
 
 const Signup = (props) => {
@@ -14,7 +16,9 @@ const Signup = (props) => {
   const [birthDate, setBirthDate] = useState("");
   const [location, setLocation] = useState("");
   const [phoneNum, setPhoneNum] = useState("");
+  const [picture, setPicture] = useState();
   const [errorMessage, setErrorMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const history = useHistory();
 
@@ -22,81 +26,46 @@ const Signup = (props) => {
     return null;
   }
 
-  const handleNom = (event) => {
-    const result = event.target.value;
-    setNom(result);
-  };
-
-  const handlePrenom = (event) => {
-    const result = event.target.value;
-    setPrenom(result);
-  };
-
-  const handleUsername = (event) => {
-    const result = event.target.value;
-    setUsername(result);
-  };
-
-  const handleEmail = (event) => {
-    const result = event.target.value;
-    setEmail(result);
-  };
-
-  const handlePassword = (event) => {
-    const result = event.target.value;
-    setPassword(result);
-  };
-
-  const handleBirthDate = (event) => {
-    const result = event.target.value;
-    setBirthDate(result);
-  };
-
-  const handleLocation = (event) => {
-    const result = event.target.value;
-    setLocation(result);
-  };
-
-  const handlePhoneNum = (event) => {
-    const result = event.target.value;
-    setPhoneNum(result);
-  };
-
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    const fetchData = async () => {
-      try {
-        const response = await axios.post("http://127.0.0.1:8000/api/signup/", {
-          username: username,
-          nom: nom,
-          prenom: prenom,
-          adr_email: email,
-          password: password,
-          date_de_naissance: birthDate,
-          localisation: location,
-          numero_de_tel: phoneNum,
-        });
-        if (response.data.token) {
-          const token = response.data.token;
-          setUser(token, response.data._id);
-          history.push("/");
-        } else {
-          setErrorMessage("une erreur est survenue");
-        }
-      } catch (error) {
-        if (error.response.status === 409) {
-          setErrorMessage("🤭 Cet email existe déjà.");
-        }
+    try {
+      setIsLoading(true);
+      const formData = new FormData();
+      formData.append("nom", nom);
+      formData.append("prenom", prenom);
+      formData.append("username", username);
+      formData.append("adr_email", email);
+      formData.append("password", password);
+      formData.append("date_de_naissance", birthDate);
+      formData.append("localisation", location);
+      formData.append("numero_de_tel", phoneNum);
+      formData.append("photo_de_profile", picture);
+      const response = await axios.post(
+        "http://127.0.0.1:8000/api/signup/",
+        formData
+      );
+      if (response.data.token) {
+        const token = response.data.token;
+        setUser(token, response.data._id);
+        history.push("/");
+      } else {
+        setErrorMessage("une erreur est survenue");
       }
-    };
-    fetchData();
+      setIsLoading(false);
+    } catch (error) {
+      if (error.response.status === 409) {
+        setErrorMessage("🤭 Cet email existe déjà.");
+      }
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
     <div className="modal" onClick={props.onClose}>
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
         <div className="modal-header">
-          <h2 className="modal-title">S'inscrire</h2>
+          <h2 className="modal-title">Signup</h2>
         </div>
         <div className="modal-body">
           <form onSubmit={handleSubmit}>
@@ -104,42 +73,84 @@ const Signup = (props) => {
               <input
                 type="text"
                 placeholder="Username"
-                onChange={handleUsername}
+                onChange={(event) => {
+                  setUsername(event.target.value);
+                }}
+              />{" "}
+              <span>MUST BE UNIQUE</span>
+              <input
+                type="text"
+                placeholder="Nom"
+                onChange={(event) => {
+                  setNom(event.target.value);
+                }}
               />
-              <input type="text" placeholder="Nom" onChange={handleNom} />
-              <input type="text" placeholder="Prenom" onChange={handlePrenom} />
-              <input type="email" placeholder="Email" onChange={handleEmail} />
+              <input
+                type="text"
+                placeholder="Prenom"
+                onChange={(event) => {
+                  setPrenom(event.target.value);
+                }}
+              />
+              <input
+                type="email"
+                placeholder="Email"
+                onChange={(event) => {
+                  setEmail(event.target.value);
+                }}
+              />
               <input
                 type="password"
                 placeholder="Mot de passe"
-                onChange={handlePassword}
+                onChange={(event) => {
+                  setPassword(event.target.value);
+                }}
               />
               <input
                 type="date"
                 placeholder="Location"
-                onChange={handleBirthDate}
+                onChange={(event) => {
+                  setBirthDate(event.target.value);
+                }}
               />
               <input
                 type="text"
                 placeholder="Location"
-                onChange={handleLocation}
+                onChange={(event) => {
+                  setLocation(event.target.value);
+                }}
               />
               <input
                 type="text"
                 placeholder="Phone number"
-                onChange={handlePhoneNum}
+                onChange={(event) => {
+                  setPhoneNum(event.target.value);
+                }}
               />
+              <div>
+                <label htmlFor="file" className="upload-file">
+                  <FontAwesomeIcon icon={faUser} />
+                  Add profile picture
+                </label>
+                <input
+                  type="file"
+                  id="file"
+                  onChange={(event) => {
+                    setPicture(event.target.files[0]);
+                  }}
+                />
+              </div>
             </div>
 
             <input
               type="submit"
-              value="S'inscrire"
-              className="btn-green"
-              onClick={props.onSubmit}
+              value={isLoading ? "Loading..." : "Signup"}
+              className={"btn-green"}
+              disabled={isLoading}
             />
             <span>{errorMessage}</span>
             <Link to="/login" onClick={props.onClose}>
-              Tu as déjà un compte ? Connecte-toi !
+              Already have an account? Log in!
             </Link>
           </form>
         </div>

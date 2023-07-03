@@ -21,8 +21,8 @@ const Saved = ({ userToken }) => {
             Authorization: "Token " + userToken,
           },
         });
-
-        setData(response.data);
+        const modifiedData = response.data.map((item) => item.article);
+        setData(modifiedData);
         setIsLoading(false);
       } catch (e) {
         console.log(e.message);
@@ -41,7 +41,6 @@ const Saved = ({ userToken }) => {
     </div>
   ) : (
     <div>
-      {console.log(data)}
       <Offers
         data={data}
         offersTitle={offersTitle}

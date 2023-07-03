@@ -1,4 +1,3 @@
-// Import the necessary dependencies
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Offers from "../components/Offers";
@@ -7,9 +6,13 @@ import "./ProfilePage.css";
 import { Link } from "react-router-dom";
 
 import { library } from "@fortawesome/fontawesome-svg-core";
-import { faSpinner, faPlus } from "@fortawesome/free-solid-svg-icons";
+import {
+  faSpinner,
+  faPlus,
+  faBookmark,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-library.add(faSpinner, faPlus);
+library.add(faSpinner, faPlus, faBookmark);
 
 const ProfilePages = ({ userToken }) => {
   const [data, setData] = useState();
@@ -74,11 +77,8 @@ const ProfilePages = ({ userToken }) => {
     </div>
   ) : (
     <div className="profile-container">
-      {/* <Link to="/saved">
-        <button>Saved</button>
-      </Link> */}
       <div className="profile-header">
-        <div className="profile-avatar">
+        <div className="profile-avatar-1">
           <img
             src={data.photo_de_profile ? data.photo_de_profile : profileImage}
             alt="Profile Avatar"
@@ -107,12 +107,17 @@ const ProfilePages = ({ userToken }) => {
               following
             </li>
           </ul>
+          <Link to="/saved" className="saved-link">
+            <FontAwesomeIcon icon="bookmark" className="saved-icon" />
+            <span className="saved-text">Saved</span>
+          </Link>
         </div>
       </div>
       <Offers
         data={data.articles}
         offersTitle={offersTitle}
         onDeleteArticle={handleDeleteArticle}
+        isOwner={true}
       />
     </div>
   );

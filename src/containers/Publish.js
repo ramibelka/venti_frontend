@@ -42,6 +42,7 @@ const Publish = ({ userToken }) => {
           },
         }
       );
+      console.log(response.data);
       setData(response.data);
       setSuccessMsg("Article added successfully");
       setErrorMessage("");
@@ -61,7 +62,7 @@ const Publish = ({ userToken }) => {
           <div>
             <label htmlFor="file" className="upload-file">
               <FontAwesomeIcon icon="plus" className="icon-plus" />
-              Ajouter photos
+              Add image
             </label>
             <input
               type="file"
@@ -166,7 +167,7 @@ const Publish = ({ userToken }) => {
 
           <input
             type="submit"
-            value={isLoading ? "Loading..." : "Ajouter"}
+            value={isLoading ? "Loading..." : "Publish"}
             className={"submit btn-green"}
             disabled={isLoading}
           />

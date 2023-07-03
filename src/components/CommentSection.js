@@ -2,10 +2,12 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { useHistory } from "react-router-dom";
 
 const CommentSection = ({ userToken, articleId, data, setData }) => {
   const [commentText, setCommentText] = useState("");
   const [comments, setComments] = useState([]);
+  const history = useHistory();
 
   const handleAddComment = async () => {
     try {
@@ -29,6 +31,7 @@ const CommentSection = ({ userToken, articleId, data, setData }) => {
       setCommentText("");
     } catch (error) {
       console.log("Error adding comment:", error);
+      history.push("/login");
     }
   };
 
@@ -81,6 +84,7 @@ const CommentSection = ({ userToken, articleId, data, setData }) => {
 
       <div className="add-comment">
         <textarea
+          autoFocus
           value={commentText}
           onChange={(e) => setCommentText(e.target.value)}
           placeholder="Add a comment..."

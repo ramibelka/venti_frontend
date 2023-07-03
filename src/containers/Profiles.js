@@ -6,49 +6,118 @@ import profileImage from "../assets/img/default-profile-pic.jpg";
 import "./ProfilePage.css";
 
 import { library } from "@fortawesome/fontawesome-svg-core";
-import { faSpinner, faPlus } from "@fortawesome/free-solid-svg-icons";
+import {
+  faSpinner,
+  faPlus,
+  faStar as solidStar,
+} from "@fortawesome/free-solid-svg-icons";
+import { faStar as regularStar } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-library.add(faSpinner, faPlus);
+library.add(faSpinner, faPlus, solidStar, regularStar);
 
-const ProfilePages = ({ userToken }) => {
+const Profiles = ({ userToken }) => {
   const [data, setData] = useState();
   const [isLoading, setIsLoading] = useState(true);
   const [isFollowing, setIsFollowing] = useState(false);
+  const [rating, setRating] = useState(0);
+  const [error, setError] = useState("");
+  const [isRatingSubmitted, setIsRatingSubmitted] = useState(false);
   const offersTitle = "";
   const { id } = useParams();
+  let headers = "";
+  if (userToken) {
+    headers = {
+      headers: {
+        Authorization: `Token ${userToken}`,
+      },
+    };
+  }
+  const fetchData = async () => {
+    try {
+      axios.defaults.withCredentials = true;
+      const response = await axios.get(
+        `http://127.0.0.1:8000/api/profiles/${id}`,
+        headers
+      );
+      const { is_followed, ...profileData } = response.data;
+      setData(profileData);
+      setIsFollowing(is_followed);
+      setIsLoading(false);
+    } catch (e) {
+      console.log(e.message);
+    }
+  };
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        axios.defaults.withCredentials = true;
-        const response = await axios.get(
-          `http://127.0.0.1:8000/api/profiles/${id}`
-        );
-        const { is_following, ...profileData } = response.data;
-        setData(profileData);
-        setIsFollowing(is_following);
-        setIsLoading(false);
-      } catch (e) {
-        console.log(e.message);
-      }
-    };
     fetchData();
   }, []);
 
   const handleFollow = async () => {
     try {
-      const endpoint = `http://127.0.0.1:8000/api/profiles/${id}/abonner/`;
-      const method = "POST";
-      await axios({
-        method,
-        url: endpoint,
+      const endpoint = isFollowing
+        ? `http://127.0.0.1:8000/api/profiles/${id}/desabonner/`
+        : `http://127.0.0.1:8000/api/profiles/${id}/abonner/`;
+
+      await axios.post(endpoint, null, {
         headers: {
           Authorization: "Token " + userToken,
         },
       });
+
       setIsFollowing(!isFollowing);
     } catch (error) {
       console.log(error.message);
+    }
+  };
+
+  const handleRating = async (value) => {
+    if (isRatingSubmitted) {
+      return; // Do nothing if the rating is already submitted
+    }
+
+    setRating(value);
+    try {
+      const response = await axios.post(
+        "http://127.0.0.1:8000/api/evaluation/ajouter/",
+        {
+          rated_user: data.username,
+          rating: value,
+        },
+        {
+          headers: {
+            Authorization: `Token ${userToken}`,
+          },
+        }
+      );
+
+      setIsRatingSubmitted(true);
+
+      // Update the rating state or perform any necessary actions after successful submission
+
+      // You can also refetch the profile data to update the evaluation statistics
+      fetchData();
+    } catch (error) {
+      console.log(error.message);
+      setError("Already rated");
+    }
+  };
+
+  const renderStar = (value) => {
+    if (isRatingSubmitted) {
+      return (
+        <FontAwesomeIcon
+          icon={solidStar}
+          className={`star-icon ${value <= rating ? "active" : ""}`}
+        />
+      );
+    } else {
+      return (
+        <FontAwesomeIcon
+          icon={regularStar}
+          className={`star-icon ${value <= rating ? "active" : ""}`}
+          onClick={() => handleRating(value)}
+        />
+      );
     }
   };
 
@@ -62,10 +131,11 @@ const ProfilePages = ({ userToken }) => {
   ) : (
     <div className="profile-container">
       <div className="profile-header">
-        <div className="profile-avatar">
+        <div className="profile-avatar-2">
           <img
             src={data.photo_de_profile ? data.photo_de_profile : profileImage}
             alt="Profile Avatar"
+            className="profile-"
           />
         </div>
         <div className="profile-info">
@@ -91,6 +161,18 @@ const ProfilePages = ({ userToken }) => {
               following
             </li>
           </ul>
+          <div className="profile-rating">
+            <p>Total Ratings: {data.total_ratings}</p>
+            <p>Average Rating: {data.average_rating}</p>
+          </div>
+          {userToken && (
+            <div className="rating-bar">
+              {[1, 2, 3, 4, 5].map((value) => (
+                <span key={value}>{renderStar(value)}</span>
+              ))}
+            </div>
+          )}
+          <p>{error}</p>
           {userToken && (
             <button className="follow-button" onClick={handleFollow}>
               {isFollowing ? "Unfollow" : "Follow"}
@@ -103,4 +185,4 @@ const ProfilePages = ({ userToken }) => {
   );
 };
 
-export default ProfilePages;
+export default Profiles;

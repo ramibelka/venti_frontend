@@ -15,7 +15,7 @@ import {
 import { useState } from "react";
 import profileImage from "../assets/img/default-profile-pic.jpg";
 
-const Offers = ({ data, offersTitle, show, userToken, isOwner }) => {
+const Offers = ({ data, offersTitle, show, userToken, setData }) => {
   const [likedArticles, setLikedArticles] = useState([]);
   const [savedArticles, setSavedArticles] = useState([]);
 
@@ -24,7 +24,7 @@ const Offers = ({ data, offersTitle, show, userToken, isOwner }) => {
       const endpoint = `http://127.0.0.1:8000/api/articles/${id}/like/`;
       const config = {
         headers: {
-          Authorization: `Token ${userToken.userToken}`,
+          Authorization: `Token ${userToken}`,
         },
       };
 
@@ -32,12 +32,16 @@ const Offers = ({ data, offersTitle, show, userToken, isOwner }) => {
 
       const updatedLikedArticles = [...likedArticles];
       const index = updatedLikedArticles.indexOf(id);
-
-      if (index === -1) {
+      if (!data[id].is_liked) {
         updatedLikedArticles.push(id);
       } else {
-        updatedLikedArticles.splice(index, 1);
+        if (index === -1) {
+          updatedLikedArticles.push(id);
+        } else {
+          updatedLikedArticles.splice(index, 1);
+        }
       }
+      fetchArticlesData();
 
       setLikedArticles(updatedLikedArticles);
     } catch (error) {
@@ -50,7 +54,7 @@ const Offers = ({ data, offersTitle, show, userToken, isOwner }) => {
       const endpoint = `http://127.0.0.1:8000/api/articles/${id}/save/`;
       const config = {
         headers: {
-          Authorization: `Token ${userToken.userToken}`,
+          Authorization: `Token ${userToken}`,
         },
       };
 
@@ -59,11 +63,16 @@ const Offers = ({ data, offersTitle, show, userToken, isOwner }) => {
       const updatedSavedArticles = [...savedArticles];
       const index = updatedSavedArticles.indexOf(id);
 
-      if (index === -1) {
+      if (!data[id].is_saved) {
         updatedSavedArticles.push(id);
       } else {
-        updatedSavedArticles.splice(index, 1);
+        if (index === -1) {
+          updatedSavedArticles.push(id);
+        } else {
+          updatedSavedArticles.splice(index, 1);
+        }
       }
+      fetchArticlesData();
 
       setSavedArticles(updatedSavedArticles);
     } catch (error) {
@@ -77,6 +86,19 @@ const Offers = ({ data, offersTitle, show, userToken, isOwner }) => {
 
   const isArticleSaved = (id) => {
     return savedArticles.includes(id);
+  };
+
+  const fetchArticlesData = async () => {
+    try {
+      const response = await axios.get("http://127.0.0.1:8000/api/articles", {
+        headers: {
+          Authorization: `Token ${userToken}`,
+        },
+      });
+      setData(response.data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -111,15 +133,19 @@ const Offers = ({ data, offersTitle, show, userToken, isOwner }) => {
 
               {show ? (
                 <div className="icons-container">
+                  {elem.like_count !== 0 && <span>{elem.like_count}</span>}
                   <FontAwesomeIcon
-                    icon={isArticleLiked(elem.id) ? fasHeart : farHeart}
-                    className={`icon ${isArticleLiked(elem.id) ? "liked" : ""}`}
+                    icon={elem.is_liked ? fasHeart : farHeart}
+                    className={`icon ${elem.is_liked ? "liked" : ""}`}
                     onClick={() => handleLike(elem.id)}
                   />
-                  <FontAwesomeIcon icon={faComment} className="icon" />
+
+                  <Link to={`/offer/${elem.id}`}>
+                    <FontAwesomeIcon icon={faComment} className="icon" />
+                  </Link>
                   <FontAwesomeIcon
-                    icon={isArticleSaved(elem.id) ? fasBookmark : farBookmark}
-                    className={`icon ${isArticleSaved(elem.id) ? "saved" : ""}`}
+                    icon={elem.is_saved ? fasBookmark : farBookmark}
+                    className={`icon ${elem.is_saved ? "saved" : ""}`}
                     onClick={() => handleSave(elem.id)}
                   />
                 </div>
