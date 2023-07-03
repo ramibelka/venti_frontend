@@ -16,9 +16,7 @@ const Home = ({ userToken }) => {
 
   const token = localStorage.getItem("authToken");
 
-  // My Api : https://vinted--le-reacteur.herokuapp.com/offers
-  // Le Reacteur API : https://lereacteur-vinted-api.herokuapp.com/offers
-  let headers = "";
+  let headers = {};
   if (userToken) {
     headers = {
       headers: {
@@ -26,30 +24,29 @@ const Home = ({ userToken }) => {
       },
     };
   }
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        //axios.defaults.withCredentials = true;
         const response = await axios.get(
           "http://127.0.0.1:8000/api/articles/",
           headers
         );
-
         setData(response.data);
         setIsLoading(false);
       } catch (e) {
         console.log(e.message);
       }
     };
+
     fetchData();
-  }, []);
+  }, [userToken]);
 
   return isLoading ? (
     <div className="loading">
       <span className="spin">
         <FontAwesomeIcon icon="spinner" spin />
       </span>
-
       <span>Loading...</span>
     </div>
   ) : (
@@ -65,4 +62,5 @@ const Home = ({ userToken }) => {
     </div>
   );
 };
+
 export default Home;

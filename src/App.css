@@ -683,9 +683,9 @@ img.avatar-card {
 
 
 .error-msg{
-  color: var(--orange-disconnect);
+  color: red;
   margin-bottom: 20px;
-  font-size: 14px;
+  font-size: medium;
   text-align: center;
   padding: 20px;
 }

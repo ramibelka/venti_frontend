@@ -59,10 +59,11 @@ const Publish = ({ userToken }) => {
       <div className="wrapper">
         <span className="success-msg">{successMsg}</span>
         <form onSubmit={handleSubmit}>
+          <span className="error-msg">Fields with * are required</span>
           <div>
             <label htmlFor="file" className="upload-file">
               <FontAwesomeIcon icon="plus" className="icon-plus" />
-              Add image
+              Add picture*
             </label>
             <input
               type="file"
@@ -75,7 +76,7 @@ const Publish = ({ userToken }) => {
           </div>
 
           <div>
-            <label htmlFor="title">Title</label>
+            <label htmlFor="title">Title *</label>
             <input
               type="text"
               id="title"
@@ -88,9 +89,9 @@ const Publish = ({ userToken }) => {
           </div>
 
           <div>
-            <label htmlFor="price">Price</label>
+            <label htmlFor="price">Price *</label>
             <input
-              type="text"
+              type="number"
               id="price"
               placeholder="00.00 DZD"
               required
@@ -112,7 +113,7 @@ const Publish = ({ userToken }) => {
           </div>
 
           <div>
-            <label htmlFor="category">Category</label>
+            <label htmlFor="category">Category *</label>
             <select
               id="category"
               onChange={(event) => {
