@@ -1,3 +1,4 @@
+import axiosInstance from "../components/axiosInstance";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
@@ -23,9 +24,10 @@ const Edit = ({ userToken }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          `http://127.0.0.1:8000/api/articles/${articleId}`
-        );
+        const response = await axiosInstance.get(`/api/articles/${articleId}`);
+        // const response = await axios.get(
+        //   `http://127.0.0.1:8000/api/articles/${articleId}`
+        // );
         setData(response.data);
         setTitle(response.data.nom_article);
         setPrice(response.data.prix);
@@ -59,8 +61,8 @@ const Edit = ({ userToken }) => {
       formData.append("taille", size);
 
       axios.defaults.withCredentials = true;
-      const response = await axios.patch(
-        `http://127.0.0.1:8000/api/articles/${articleId}/modifier/`,
+      const response = await axiosInstance.patch(
+        `/api/articles/${articleId}/modifier/`,
         formData,
         {
           headers: {
@@ -69,6 +71,16 @@ const Edit = ({ userToken }) => {
           },
         }
       );
+      // const response = await axios.patch(
+      //   `http://127.0.0.1:8000/api/articles/${articleId}/modifier/`,
+      //   formData,
+      //   {
+      //     headers: {
+      //       Authorization: "Token " + userToken,
+      //       "Content-Type": "multipart/form-data",
+      //     },
+      //   }
+      // );
       setData(response.data);
       setSuccessMsg("Article updated successfully");
       setErrorMessage("");

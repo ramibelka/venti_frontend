@@ -1,3 +1,4 @@
+import axiosInstance from "../components/axiosInstance";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Offers from "../components/Offers";
@@ -16,11 +17,16 @@ const Saved = ({ userToken }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://127.0.0.1:8000/api/favoris/", {
+        const response = await axiosInstance.get("/api/favoris/", {
           headers: {
             Authorization: "Token " + userToken,
           },
         });
+        // const response = await axios.get("http://127.0.0.1:8000/api/favoris/", {
+        //   headers: {
+        //     Authorization: "Token " + userToken,
+        //   },
+        // });
         const modifiedData = response.data.map((item) => item.article);
         setData(modifiedData);
         setIsLoading(false);

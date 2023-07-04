@@ -1,3 +1,4 @@
+import axiosInstance from "../components/axiosInstance";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import logo from "../assets/img/vinted-logo.png";
@@ -15,12 +16,15 @@ const Header = ({ setUser, userToken, setShow, show }) => {
   const handleSearch = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.get(
-        `http://localhost:8000/api/articles/search-filter/?search=${searchInput}`
+      const response = await axiosInstance.get(
+        `/api/articles/search-filter/?search=${searchInput}`
       );
+      // const response = await axios.get(
+      //   `http://localhost:8000/api/articles/search-filter/?search=${searchInput}`
+      // );
       // Process the search results here
       const searchResults = response.data;
-      history.push("/search", { searchResults });
+      history.push("/search", { searchResults, searchInput });
     } catch (error) {
       console.log(error);
     }

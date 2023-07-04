@@ -1,4 +1,5 @@
-import { Link, useHistory } from "react-router-dom";
+import axiosInstance from "../components/axiosInstance";
+import { Link, useHistory, useLocation } from "react-router-dom";
 import axios from "axios";
 //import "./Offers.css";
 
@@ -15,7 +16,10 @@ import {
 import { useState } from "react";
 import profileImage from "../assets/img/default-profile-pic.jpg";
 
-const Offers = ({ data, offersTitle, show, userToken, setData }) => {
+const Offers = ({ data, offersTitle, show, userToken, setData, fetchData }) => {
+  const location = useLocation();
+  // The current location.
+
   const [likedArticles, setLikedArticles] = useState([]);
   const [savedArticles, setSavedArticles] = useState([]);
 
@@ -31,20 +35,26 @@ const Offers = ({ data, offersTitle, show, userToken, setData }) => {
       };
 
       // Send a POST request to the server to like the article
-      await axios.post(endpoint, {}, config);
+      await axiosInstance.post(`/api/articles/${id}/like/`, {}, config);
+      //await axios.post(endpoint, {}, config);
 
       const updatedLikedArticles = [...likedArticles];
-      const index = updatedLikedArticles.indexOf(id);
-      if (!data[id].is_liked) {
+      const index = updatedLikedArticles.indexOf(id); //if returns -1 means doesn't exist
+      const isClickedLiked = data.find((element) => element.id === id).is_liked;
+
+      if (!isClickedLiked) {
+        // if article not liked in the DB
         updatedLikedArticles.push(id); // Add the article ID to the liked articles list
       } else {
+        //else test if it's in the state already
         if (index === -1) {
           updatedLikedArticles.push(id);
         } else {
+          //else if it exists in the state delete it
           updatedLikedArticles.splice(index, 1); // Remove the article ID from the liked articles list
         }
       }
-      fetchArticlesData(); // Fetch updated article data
+      fetchData(); // Fetch updated article data
 
       setLikedArticles(updatedLikedArticles); // Update the liked articles state
     } catch (error) {
@@ -63,7 +73,8 @@ const Offers = ({ data, offersTitle, show, userToken, setData }) => {
       };
 
       // Send a POST request to the server to save the article
-      await axios.post(endpoint, {}, config);
+      await axiosInstance.post(`/api/articles/${id}/save/`, {}, config);
+      //await axios.post(endpoint, {}, config);
 
       const updatedSavedArticles = [...savedArticles];
       const index = updatedSavedArticles.indexOf(id);
@@ -77,7 +88,7 @@ const Offers = ({ data, offersTitle, show, userToken, setData }) => {
           updatedSavedArticles.splice(index, 1); // Remove the article ID from the saved articles list
         }
       }
-      fetchArticlesData(); // Fetch updated article data
+      fetchData(); // Fetch updated article data
 
       setSavedArticles(updatedSavedArticles); // Update the saved articles state
     } catch (error) {
@@ -96,11 +107,16 @@ const Offers = ({ data, offersTitle, show, userToken, setData }) => {
 
   const fetchArticlesData = async () => {
     try {
-      const response = await axios.get("http://127.0.0.1:8000/api/articles", {
+      const response = await axiosInstance.get("/api/articles/", {
         headers: {
           Authorization: `Token ${userToken}`,
         },
       });
+      // const response = await axios.get("http://127.0.0.1:8000/api/articles", {
+      //   headers: {
+      //     Authorization: `Token ${userToken}`,
+      //   },
+      // });
       setData(response.data); // Update the article data state with the fetched data
     } catch (error) {
       console.log(error);

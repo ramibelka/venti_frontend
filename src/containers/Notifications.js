@@ -1,3 +1,4 @@
+import axiosInstance from "../components/axiosInstance";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
@@ -12,15 +13,21 @@ const Notifications = ({ userToken }) => {
     const fetchNotifications = async () => {
       setIsLoading(true);
       try {
-        const response = await axios.get(
-          "http://127.0.0.1:8000/api/notifications/",
-          {
-            headers: {
-              Authorization: "Token " + userToken,
-              "Content-Type": "multipart/form-data",
-            },
-          }
-        );
+        const response = await axiosInstance.get("/api/notifications/", {
+          headers: {
+            Authorization: "Token " + userToken,
+            "Content-Type": "multipart/form-data",
+          },
+        });
+        // const response = await axios.get(
+        //   "http://127.0.0.1:8000/api/notifications/",
+        //   {
+        //     headers: {
+        //       Authorization: "Token " + userToken,
+        //       "Content-Type": "multipart/form-data",
+        //     },
+        //   }
+        // );
         setNotifications(response.data);
       } catch (error) {
         setError(error.message);

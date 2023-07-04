@@ -1,3 +1,4 @@
+import axiosInstance from "../components/axiosInstance";
 import React, { useState, useEffect } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import axios from "axios";
@@ -14,9 +15,10 @@ const Offer = ({ userToken }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          `http://127.0.0.1:8000/api/articles/${id}`
-        );
+        const response = await axiosInstance.get(`/api/articles/${id}`);
+        // const response = await axios.get(
+        //   `http://127.0.0.1:8000/api/articles/${id}`
+        // );
         setData(response.data);
         setIsLoading(false);
       } catch (e) {
@@ -33,15 +35,20 @@ const Offer = ({ userToken }) => {
 
   const handleDelete = async () => {
     try {
-      await axios.delete(
-        `http://127.0.0.1:8000/api/articles/${id}/supprimer/`,
-        {
-          headers: {
-            Authorization: "Token " + userToken,
-          },
-        }
-      );
-      history.push("/");
+      await axiosInstance.delete(`/api/articles/${id}/supprimer/`, {
+        headers: {
+          Authorization: "Token " + userToken,
+        },
+      });
+      // await axios.delete(
+      //   `http://127.0.0.1:8000/api/articles/${id}/supprimer/`,
+      //   {
+      //     headers: {
+      //       Authorization: "Token " + userToken,
+      //     },
+      //   }
+      // );
+      history.push("/profile");
     } catch (error) {
       console.log(error);
     }

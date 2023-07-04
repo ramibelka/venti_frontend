@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import axiosInstance from "../components/axiosInstance";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
 
@@ -9,7 +9,8 @@ const Logout = ({ setUser }) => {
   const handleLogout = async () => {
     setUser(null);
     try {
-      await axios.post("http://127.0.0.1:8000/api/dj-rest-auth/logout/");
+      await axiosInstance.post("/api/dj-rest-auth/logout/");
+      //await axios.post("http://127.0.0.1:8000/api/dj-rest-auth/logout/");
       // Clear authentication token from storage
       localStorage.removeItem("authToken");
 

@@ -1,3 +1,4 @@
+import axiosInstance from "../components/axiosInstance";
 import { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import axios from "axios";
@@ -40,10 +41,11 @@ const Signup = (props) => {
       formData.append("localisation", location);
       formData.append("numero_de_tel", phoneNum);
       formData.append("photo_de_profile", picture);
-      const response = await axios.post(
-        "http://127.0.0.1:8000/api/signup/",
-        formData
-      );
+      const response = await axiosInstance.post("/api/signup/", formData);
+      // const response = await axios.post(
+      //   "http://127.0.0.1:8000/api/signup/",
+      //   formData
+      // );
       if (response.data.token) {
         const token = response.data.token;
         setUser(token, response.data._id);

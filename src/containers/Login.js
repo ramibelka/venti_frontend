@@ -1,3 +1,4 @@
+import axiosInstance from "../components/axiosInstance";
 import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
@@ -37,9 +38,12 @@ const Login = (props) => {
 
   const fetchArticlesData = async (userToken) => {
     try {
-      const response = await axios.get("http://127.0.0.1:8000/api/articles", {
+      const response = await axiosInstance.get("/api/articles", {
         withCredentials: true,
       });
+      // const response = await axios.get("http://127.0.0.1:8000/api/articles", {
+      //   withCredentials: true,
+      // });
       history.push("/", response.data);
       // ...
     } catch (error) {
@@ -52,8 +56,8 @@ const Login = (props) => {
 
     try {
       setIsLoading(true);
-      const response = await axios.post(
-        "http://127.0.0.1:8000/api/dj-rest-auth/login/",
+      const response = await axiosInstance.post(
+        "/api/dj-rest-auth/login/",
         {
           username: username,
           password: password,
@@ -63,6 +67,17 @@ const Login = (props) => {
           cancelToken: axios.CancelToken.source().token,
         }
       );
+      // const response = await axios.post(
+      //   "http://127.0.0.1:8000/api/dj-rest-auth/login/",
+      //   {
+      //     username: username,
+      //     password: password,
+      //   },
+      //   {
+      //     // Pass the cancellation token to the request
+      //     cancelToken: axios.CancelToken.source().token,
+      //   }
+      // );
 
       if (response.data.key) {
         const key = response.data.key;

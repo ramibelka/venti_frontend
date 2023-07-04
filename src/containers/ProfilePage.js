@@ -1,3 +1,4 @@
+import axiosInstance from "../components/axiosInstance";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Offers from "../components/Offers";
@@ -23,14 +24,19 @@ const ProfilePages = ({ userToken }) => {
     const fetchData = async () => {
       try {
         axios.defaults.withCredentials = true;
-        const response = await axios.get(
-          "http://127.0.0.1:8000/api/profile/current/",
-          {
-            headers: {
-              Authorization: "Token " + userToken,
-            },
-          }
-        );
+        const response = await axiosInstance.get("/api/profile/current/", {
+          headers: {
+            Authorization: "Token " + userToken,
+          },
+        });
+        // const response = await axios.get(
+        //   "http://127.0.0.1:8000/api/profile/current/",
+        //   {
+        //     headers: {
+        //       Authorization: "Token " + userToken,
+        //     },
+        //   }
+        // );
 
         setData(response.data);
         setIsLoading(false);
@@ -44,14 +50,22 @@ const ProfilePages = ({ userToken }) => {
   const handleDeleteArticle = async (articleId) => {
     try {
       axios.defaults.withCredentials = true;
-      const response = await axios.delete(
-        `http://127.0.0.1:8000/api/articles/${articleId}/supprimer/`,
+      const response = await axiosInstance.delete(
+        `/api/articles/${articleId}/supprimer/`,
         {
           headers: {
             Authorization: "Token " + userToken.userToken,
           },
         }
       );
+      // const response = await axios.delete(
+      //   `http://127.0.0.1:8000/api/articles/${articleId}/supprimer/`,
+      //   {
+      //     headers: {
+      //       Authorization: "Token " + userToken.userToken,
+      //     },
+      //   }
+      // );
 
       // Remove the deleted article from the state
       setData((prevData) => ({

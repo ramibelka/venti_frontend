@@ -1,3 +1,4 @@
+import axiosInstance from "../components/axiosInstance";
 import { useState } from "react";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -32,8 +33,8 @@ const Publish = ({ userToken }) => {
       formData.append("taille", size);
 
       axios.defaults.withCredentials = true;
-      const response = await axios.post(
-        "http://127.0.0.1:8000/api/articles/ajouter/",
+      const response = await axiosInstance.post(
+        "/api/articles/ajouter/",
         formData,
         {
           headers: {
@@ -42,6 +43,16 @@ const Publish = ({ userToken }) => {
           },
         }
       );
+      // const response = await axios.post(
+      //   "http://127.0.0.1:8000/api/articles/ajouter/",
+      //   formData,
+      //   {
+      //     headers: {
+      //       Authorization: "Token " + userToken,
+      //       "Content-Type": "multipart/form-data",
+      //     },
+      //   }
+      // );
       console.log(response.data);
       setData(response.data);
       setSuccessMsg("Article added successfully");

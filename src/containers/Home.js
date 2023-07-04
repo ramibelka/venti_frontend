@@ -1,3 +1,4 @@
+import axiosInstance from "../components/axiosInstance";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Hero from "../components/Hero";
@@ -25,20 +26,17 @@ const Home = ({ userToken }) => {
     };
   }
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          "http://127.0.0.1:8000/api/articles/",
-          headers
-        );
-        setData(response.data);
-        setIsLoading(false);
-      } catch (e) {
-        console.log(e.message);
-      }
-    };
+  const fetchData = async () => {
+    try {
+      const response = await axiosInstance.get("/api/articles", headers);
+      setData(response.data);
+      setIsLoading(false);
+    } catch (e) {
+      console.log(e.message);
+    }
+  };
 
+  useEffect(() => {
     fetchData();
   }, [userToken]);
 
@@ -58,6 +56,7 @@ const Home = ({ userToken }) => {
         show={show}
         userToken={userToken}
         setData={setData}
+        fetchData={fetchData}
       />
     </div>
   );

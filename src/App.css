@@ -144,6 +144,60 @@ header .btn-disco {
   color: var(--white);
 }
 
+/*search page*/
+.filter-form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  padding: 10px;
+}
+
+.filter-input {
+  display: flex;
+  align-items: center;
+  margin-right: 10px;
+}
+
+.filter-input label {
+  font-size: 14px;
+  font-weight: bold;
+  margin-right: 5px;
+}
+
+.filter-input select {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  transition: border-color 0.3s ease;
+  background-color: #f9f9f9;
+  color: #333;
+}
+
+.filter-input select:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+.filter-form button {
+  padding: 8px 16px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.filter-form button:hover {
+  background-color: #0056b3;
+}
+
+
+
 /* ------- MODAL - SIGNUP -------- */
 .modal {
   position: fixed;

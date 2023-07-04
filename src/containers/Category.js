@@ -1,3 +1,4 @@
+import axiosInstance from "../components/axiosInstance";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Offers from "../components/Offers";
@@ -17,20 +18,34 @@ const Category = ({ userToken }) => {
   const offersTitle = category;
   const show = true;
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setIsLoading(true);
-        const response = await axios.get(
-          `http://127.0.0.1:8000/api/articles/${category}`
-        );
-
-        setData(response.data);
-        setIsLoading(false);
-      } catch (e) {
-        console.log(e.message);
-      }
+  let headers = {};
+  if (userToken) {
+    headers = {
+      headers: {
+        Authorization: `Token ${userToken}`,
+      },
     };
+  }
+
+  const fetchData = async () => {
+    try {
+      setIsLoading(true);
+      const response = await axiosInstance.get(
+        `/api/articles/${category}`,
+        headers
+      );
+      // const response = await axios.get(
+      //   `http://127.0.0.1:8000/api/articles/${category}`
+      // );
+
+      setData(response.data);
+      setIsLoading(false);
+    } catch (e) {
+      console.log(e.message);
+    }
+  };
+
+  useEffect(() => {
     fetchData();
   }, [category]);
 
@@ -49,6 +64,8 @@ const Category = ({ userToken }) => {
         offersTitle={category.toUpperCase()}
         show={show}
         userToken={userToken}
+        setData={setData}
+        fetchData={fetchData}
       />
     </div>
   );

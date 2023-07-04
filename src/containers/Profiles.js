@@ -1,3 +1,4 @@
+import axiosInstance from "../components/axiosInstance";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
@@ -35,10 +36,11 @@ const Profiles = ({ userToken }) => {
   const fetchData = async () => {
     try {
       axios.defaults.withCredentials = true;
-      const response = await axios.get(
-        `http://127.0.0.1:8000/api/profiles/${id}`,
-        headers
-      );
+      const response = await axiosInstance.get(`/api/profiles/${id}`, headers);
+      // const response = await axios.get(
+      //   `http://127.0.0.1:8000/api/profiles/${id}`,
+      //   headers
+      // );
       const { is_followed, ...profileData } = response.data;
       setData(profileData);
       setIsFollowing(is_followed);
@@ -55,14 +57,19 @@ const Profiles = ({ userToken }) => {
   const handleFollow = async () => {
     try {
       const endpoint = isFollowing
-        ? `http://127.0.0.1:8000/api/profiles/${id}/desabonner/`
-        : `http://127.0.0.1:8000/api/profiles/${id}/abonner/`;
+        ? `/api/profiles/${id}/desabonner/`
+        : `/api/profiles/${id}/abonner/`;
 
-      await axios.post(endpoint, null, {
+      await axiosInstance.post(endpoint, null, {
         headers: {
           Authorization: "Token " + userToken,
         },
       });
+      // await axios.post(endpoint, null, {
+      //   headers: {
+      //     Authorization: "Token " + userToken,
+      //   },
+      // });
 
       setIsFollowing(!isFollowing);
     } catch (error) {
@@ -77,8 +84,8 @@ const Profiles = ({ userToken }) => {
 
     setRating(value);
     try {
-      const response = await axios.post(
-        "http://127.0.0.1:8000/api/evaluation/ajouter/",
+      const response = await axiosInstance.post(
+        "/api/evaluation/ajouter/",
         {
           rated_user: data.username,
           rating: value,
@@ -89,6 +96,18 @@ const Profiles = ({ userToken }) => {
           },
         }
       );
+      // const response = await axios.post(
+      //   "http://127.0.0.1:8000/api/evaluation/ajouter/",
+      //   {
+      //     rated_user: data.username,
+      //     rating: value,
+      //   },
+      //   {
+      //     headers: {
+      //       Authorization: `Token ${userToken}`,
+      //     },
+      //   }
+      // );
 
       setIsRatingSubmitted(true);
 
