@@ -101,7 +101,6 @@ const CommentSection = ({ userToken, articleId, data, setData }) => {
       {renderComments()} {/* Render the list of comments */}
       <div className="add-comment">
         <textarea
-          autoFocus
           value={commentText}
           onChange={(e) => setCommentText(e.target.value)}
           placeholder="Add a comment..."

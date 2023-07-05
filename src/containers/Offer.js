@@ -9,6 +9,7 @@ import Offers from "../components/Offers";
 
 const Offer = ({ userToken }) => {
   const [data, setData] = useState();
+  const [recommendedData, setRecommendedData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   const history = useHistory();
@@ -23,11 +24,23 @@ const Offer = ({ userToken }) => {
     };
   }
 
-  const fetchData = async () => {
+  const fetchRecommendedData = async () => {
     try {
       const response = await axiosInstance.get("/api/articles", headers);
+      return response.data; // Return the response data
+    } catch (e) {
+      console.log(e.message);
+      return null;
+    }
+  };
+
+  const fetchData = async () => {
+    try {
+      const response = await axiosInstance.get(`/api/articles/${id}`);
+      // const response = await axios.get(
+      //   `http://127.0.0.1:8000/api/articles/${id}`
+      // );
       setData(response.data);
-      const fetchedData = response.data;
       setIsLoading(false);
     } catch (e) {
       console.log(e.message);
@@ -35,20 +48,15 @@ const Offer = ({ userToken }) => {
   };
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axiosInstance.get(`/api/articles/${id}`);
-        // const response = await axios.get(
-        //   `http://127.0.0.1:8000/api/articles/${id}`
-        // );
-        setData(response.data);
-        setIsLoading(false);
-      } catch (e) {
-        console.log(e.message);
+    const fetchAndSetRecommendedData = async () => {
+      const recommendedData = await fetchRecommendedData();
+      if (recommendedData) {
+        setRecommendedData(recommendedData);
       }
     };
 
     fetchData();
+    fetchAndSetRecommendedData(); // Fetch and set recommended data
   }, [id]);
 
   const handleEdit = () => {
@@ -157,12 +165,12 @@ const Offer = ({ userToken }) => {
           />
         </div>
         <Offers
-          data={fetchedData}
+          data={recommendedData}
           offersTitle={"Similar items"}
           show={true}
           userToken={userToken}
           setData={setData}
-          fetchData={fetchData}
+          fetchData={fetchRecommendedData}
         />
       </main>
     </>
