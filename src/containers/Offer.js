@@ -4,6 +4,8 @@ import { useParams, useHistory } from "react-router-dom";
 import axios from "axios";
 import CommentSection from "../components/CommentSection";
 import { Link } from "react-router-dom";
+import profileImage from "../assets/img/default-profile-pic.jpg";
+import Offers from "../components/Offers";
 
 const Offer = ({ userToken }) => {
   const [data, setData] = useState();
@@ -11,6 +13,26 @@ const Offer = ({ userToken }) => {
 
   const history = useHistory();
   const { id } = useParams();
+
+  let headers = {};
+  if (userToken) {
+    headers = {
+      headers: {
+        Authorization: `Token ${userToken}`,
+      },
+    };
+  }
+
+  const fetchData = async () => {
+    try {
+      const response = await axiosInstance.get("/api/articles", headers);
+      setData(response.data);
+      const fetchedData = response.data;
+      setIsLoading(false);
+    } catch (e) {
+      console.log(e.message);
+    }
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -94,7 +116,14 @@ const Offer = ({ userToken }) => {
               <div>
                 <Link to={`/profiles/${data.auteur_id}`}>
                   <div>
-                    {data.photo ? <img src={data.photo} alt="/" /> : null}
+                    <img
+                      src={
+                        data.photo_de_profile
+                          ? data.photo_de_profile
+                          : profileImage
+                      }
+                      alt="/"
+                    />
                     <span>{data.auteur}</span>{" "}
                   </div>
                 </Link>
@@ -127,6 +156,14 @@ const Offer = ({ userToken }) => {
             setData={setData}
           />
         </div>
+        <Offers
+          data={fetchedData}
+          offersTitle={"Similar items"}
+          show={true}
+          userToken={userToken}
+          setData={setData}
+          fetchData={fetchData}
+        />
       </main>
     </>
   );

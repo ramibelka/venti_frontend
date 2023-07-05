@@ -130,7 +130,7 @@ const Offers = ({ data, offersTitle, show, userToken, setData, fetchData }) => {
         {data.map((elem) => (
           <div key={elem.id} className="wrap-card">
             <div className="offer-card">
-              {show ? (
+              {show && !location.pathname.includes("/profiles") && (
                 <Link to={`/profiles/${elem.auteur_id}`}>
                   <div className="avatar-card">
                     <img
@@ -145,8 +145,6 @@ const Offers = ({ data, offersTitle, show, userToken, setData, fetchData }) => {
                     <span>{elem.auteur}</span>
                   </div>
                 </Link>
-              ) : (
-                <div> </div>
               )}
 
               <Link to={`/offer/${elem.id}`} className="post-card">
