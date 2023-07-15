@@ -25,6 +25,7 @@ const Profiles = ({ userToken }) => {
   const [isRatingSubmitted, setIsRatingSubmitted] = useState(false);
   const offersTitle = "";
   const { id } = useParams();
+  console.log(userToken);
   let headers = "";
   if (userToken) {
     headers = {
@@ -199,7 +200,13 @@ const Profiles = ({ userToken }) => {
           )}
         </div>
       </div>
-      <Offers data={data.articles} offersTitle={offersTitle} show={true} />
+      <Offers
+        userToken={userToken}
+        data={data.articles}
+        offersTitle={offersTitle}
+        show={true}
+        fetchData={fetchData}
+      />
     </div>
   );
 };

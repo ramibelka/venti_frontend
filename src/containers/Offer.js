@@ -24,9 +24,12 @@ const Offer = ({ userToken }) => {
     };
   }
 
-  const fetchRecommendedData = async () => {
+  const fetchRecommendedData = async (id) => {
     try {
-      const response = await axiosInstance.get("/api/articles", headers);
+      const response = await axiosInstance.get(
+        `/api/item/articles/${id}/item-similarity/`,
+        headers
+      );
       return response.data; // Return the response data
     } catch (e) {
       console.log(e.message);
@@ -49,14 +52,14 @@ const Offer = ({ userToken }) => {
 
   useEffect(() => {
     const fetchAndSetRecommendedData = async () => {
-      const recommendedData = await fetchRecommendedData();
+      const recommendedData = await fetchRecommendedData(id);
       if (recommendedData) {
         setRecommendedData(recommendedData);
       }
     };
 
     fetchData();
-    fetchAndSetRecommendedData(); // Fetch and set recommended data
+    fetchAndSetRecommendedData(id); // Fetch and set recommended data
   }, [id]);
 
   const handleEdit = () => {
